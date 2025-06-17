@@ -1,12 +1,8 @@
-// src/utils/api.js
+
 import axios from "axios";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const API_BASE = import.meta.env.VITE_API_URL
 
-/**
- * Step 1: Initiate the booking before payment
- * Validates email, saves student info if slots are available
- */
 export const initiateBooking = async (studentData) => {
   try {
     const res = await axios.post(`${API_BASE}/api/bookings/initiate`, studentData);
@@ -16,10 +12,6 @@ export const initiateBooking = async (studentData) => {
   }
 };
 
-/**
- * Step 2: Confirm booking after payment is done
- * Marks student as paid and updates BookingDate
- */
 export const confirmBooking = async ({ studentId, dateOfCall, txnId, screenshotUrl }) => {
   try {
     const res = await axios.post(`${API_BASE}/api/bookings/confirm`, { studentId, dateOfCall, txnId, screenshotUrl });
@@ -29,9 +21,6 @@ export const confirmBooking = async ({ studentId, dateOfCall, txnId, screenshotU
   }
 };
 
-/**
- * Optional: Fetch list of fully booked dates
- */
 export const getFullBookingDates = async () => {
   try {
     const res = await axios.get(`${API_BASE}/api/bookings/full-dates`);
@@ -41,9 +30,6 @@ export const getFullBookingDates = async () => {
   }
 };
 
-/**
- * Consistent API error handler
- */
 function handleApiError(error) {
 
   if (error.response?.data) {

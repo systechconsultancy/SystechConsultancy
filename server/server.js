@@ -7,7 +7,15 @@ import uploadRoutes from './routes/uploadRoutes.js';
 
 dotenv.config();
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: [
+    "https://systechconsultancy.in",
+    "https://www.systechconsultancy.in",
+    "http://localhost:5173"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+}));
 app.use(express.json());
 
 connectDB();
