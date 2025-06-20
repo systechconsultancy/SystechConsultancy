@@ -2,6 +2,7 @@ import express from "express";
 import Student from "../models/Student.js";
 import Transaction from "../models/Transaction.js";
 import BookingDate from "../models/BookingDate.js";
+import { sendInvoice } from "../utils/sendInvoiceUtility.js";
 
 const router = express.Router();
 
@@ -109,26 +110,28 @@ router.post("/confirm", async (req, res) => {
     });
     await newTxn.save();
 
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
       message: "Your payment has been successfully processed. Your session has been booked. A confirmation email will be sent shortly.",
     });
+
+    const utcDate = new Date()
+    const options = {
+      timeZone: 'Asia/Kolkata',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    };
+    const parts = new Intl.DateTimeFormat('en-CA', options).formatToParts(utcDate);
+    const date = `${parts.find(p => p.type === 'year').value}-${parts.find(p => p.type === 'month').value}-${parts.find(p => p.type === 'day').value}`;
+
+
+    await sendInvoice(student.name, student.email, student.phone, date);
 
   } catch (err) {
     console.error("Confirm error:", err);
     return res.status(500).json({ success: false, message: "Server error." });
   }
 });
-
-router.get("/full-dates", async (req, res) => {
-  try {
-    const fullDates = await BookingDate.find({ count: { $gte: 5 } }).select("date -_id");
-    res.json(fullDates.map(d => d.date));
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Could not fetch full dates." });
-  }
-});
-
 
 export default router;

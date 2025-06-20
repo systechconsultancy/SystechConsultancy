@@ -23,6 +23,7 @@ connectDB();
 app.use("/api/bookings", bookingRoutes);
 app.use('/api', uploadRoutes);
 
+
 app.get('/', (req, res) => {
     res.send('Testing');
 });

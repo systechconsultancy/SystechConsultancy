@@ -85,16 +85,12 @@ export default function Counselling() {
                 useWebWorker: true,
             });
             screenshotForm.append("screenshot", compressedFile);
-            const start = performance.now();
             const uploadRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/upload-screenshot`, {
                 method: "POST",
                 body: screenshotForm,
             });
 
             const uploadData = await uploadRes.json();
-
-            const end = performance.now();
-            console.log(`⏱️ Screenshot upload time: ${(end - start).toFixed(2)} ms`);
 
             if (!uploadData.url) {
                 throw new Error("Screenshot upload failed.");
@@ -106,9 +102,6 @@ export default function Counselling() {
                 screenshotUrl: uploadData.url,
                 dateOfCall: formData.dateOfCall,
             });
-
-            const end1 = performance.now();
-            console.log(`⏱️ Total time: ${(end1 - start).toFixed(2)} ms`);
 
             if (res.success) {
                 setShowPaymentUI(false);
