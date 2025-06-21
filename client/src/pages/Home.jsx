@@ -1,6 +1,4 @@
-import Layout from "../layouts/Layout";
 import { Link } from "react-router-dom";
-
 export default function Home() {
   return (
     <>
@@ -54,7 +52,7 @@ export default function Home() {
 
       <section className="py-16 px-6">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-semibold text-center text-blue-900 mb-12">
+          <h2 className="text-3xl font-semibold text-center text-green-400 mb-12">
             Why Germany?
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
@@ -66,7 +64,7 @@ export default function Home() {
               desc: "18‑month job seeker visa + excellent chance for career operations."
             }, {
               title: "Industry‑University Synergy",
-              desc: "Hands-on exposure through university tie-ups with ."
+              desc: "Hands-on exposure through university tie-ups with top companies."
             }, {
               title: "Cultural & Personal Growth",
               desc: "Safe, multicultural, part-time work + European travel."
@@ -93,7 +91,7 @@ export default function Home() {
             },
             {
               title: "Application to Visa Guidance",
-              desc: "From selecting universities and crafting standout SOPs to document submission, blocked account setup, and visa interview prep—we simplify the entire process."
+              desc: "From selecting universities, admission processes, blocked account setup, and visa interview prep—we simplify the entire process."
             },
             {
               title: "Expert-Led Mentorship & Career Access",
