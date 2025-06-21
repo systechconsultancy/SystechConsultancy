@@ -19,21 +19,47 @@ const Navbar = () => {
   return (
     <nav className="bg-amber-700 text-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
+        <div className="flex justify-between items-center py-2 md:py-2">
 
-          <div className="text-2xl font-bold">
-            <Link to="/">Logo</Link>
+          {/* Logo */}
+          <div className="flex items-center gap-3 flex-shrink-0">
+            {/* Logo */}
+            <div className="flex items-center gap-3 flex-shrink-0">
+              {/* Logo */}
+              <Link to="/">
+                <img
+                  src="/logo.png"
+                  alt="Systech Consultancy Logo"
+                  className="h-10 sm:h-12 md:h-14 w-auto object-contain"
+                />
+              </Link>
+
+              {/* Brand Text */}
+              <div className="flex flex-col leading-tight">
+                <span className="text-base sm:text-base md:text-2xl font-semibold text-white">
+                  Systech Consultancy
+                </span>
+                <span className="text-xs sm:text-sm text-gray-200 -mt-1 tracking-wide">
+                  Empowering Your Vision
+                </span>
+              </div>
+            </div>
           </div>
 
+
+          {/* Desktop Menu */}
           <ul className="hidden md:flex space-x-8 items-center">
             {navItems.map(({ label, path }) => (
               <li key={label} className="relative group">
                 <Link
                   to={path}
-                  className={`relative text-lg font-medium ${isActive(path) ? "underline text-white" : "text-gray-100 hover:text-white"}`}
+                  className={`text-base font-medium ${isActive(path)
+                    ? "underline text-white"
+                    : "text-gray-100 hover:text-white"
+                    }`}
                 >
                   {label}
-                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                 </Link>
               </li>
             ))}
@@ -46,8 +72,13 @@ const Navbar = () => {
             </li>
           </ul>
 
+          {/* Mobile Menu Button */}
           <div className="md:hidden">
-            <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="focus:outline-none"
+              aria-label="Toggle navigation"
+            >
               {isOpen ? (
                 <XMarkIcon className="h-7 w-7 text-white" />
               ) : (
@@ -58,15 +89,19 @@ const Navbar = () => {
         </div>
       </div>
 
+      {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-amber-700 px-4 pb-4">
-          <ul className="space-y-4">
+        <div className="md:hidden bg-amber-700 px-4 pb-4 space-y-4">
+          <ul className="space-y-2">
             {navItems.map(({ label, path }) => (
               <li key={label}>
                 <Link
                   to={path}
                   onClick={() => setIsOpen(false)}
-                  className={`block text-lg font-medium ${isActive(path) ? "underline text-white" : "text-gray-100 hover:text-white"}`}
+                  className={`block text-base font-medium ${isActive(path)
+                    ? "underline text-white"
+                    : "text-gray-100 hover:text-white"
+                    }`}
                 >
                   {label}
                 </Link>

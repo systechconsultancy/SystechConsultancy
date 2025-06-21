@@ -1,49 +1,65 @@
+import { Link } from "react-router-dom";
 
 const Footer = () => {
-    return (
-        <footer className="bg-gray-900 text-white py-10 px-6">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+  return (
+    <footer className="bg-gray-900 text-white px-6 pt-12 pb-8">
+      <div className="max-w-7xl mx-auto grid gap-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
 
-                <div>
-                    <h2 className="text-2xl font-bold mb-4">YourLogo</h2>
-                    <p className="text-sm text-gray-400">
-                        We guide students in pursuing higher education in Germany, offer language learning courses, and help them build skills in their respective fields of interest.
-                    </p>
-                </div>
-
-                <div>
-                    <h3 className="text-lg font-semibold mb-3">Our Services</h3>
-                    <ul className="space-y-2 text-sm text-gray-300">
-                        <li><a href="/services#germany" className="hover:text-white">Study in Germany</a></li>
-                        <li><a href="/services#projects" className="hover:text-white">Real-World Projects</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h3 className="text-lg font-semibold mb-3">Contact</h3>
-                    <ul className="text-sm text-gray-300 space-y-2">
-                        <li>Email: info@yourdomain.com</li>
-                        <li>Phone: +91 9999999999</li>
-                        <li>WhatsApp: Mon–Sat, 9AM–7PM</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h3 className="text-lg font-semibold mb-3">Follow Us</h3>
-                    <div className="flex space-x-4 text-gray-300">
-                        <a href="#" className="hover:text-white">LinkedIn</a>
-                        <a href="#" className="hover:text-white">Facebook</a>
-                        <a href="#" className="hover:text-white">Instagram</a>
-                        <a href="#" className="hover:text-white">Youtube</a>
-                    </div>
-                </div>
+        {/* Brand & Summary */}
+        <div>
+          <Link to="/" className="inline-flex items-center gap-3 mb-4">
+            <img
+              src="/logo.png"
+              alt="Systech Consultancy Logo"
+              className="h-10 w-auto object-contain"
+            />
+            <div>
+              <span className="text-xl font-semibold text-white">Systech Consultancy</span>
+              <p className="text-xs text-gray-400 -mt-1">Empowering Your Vision</p>
             </div>
+          </Link>
+          <p className="text-sm text-gray-400 leading-relaxed mt-2">
+            Guiding students to pursue higher education in Germany, offering language courses and real-world skill development for a future-ready career.
+          </p>
+        </div>
 
-            <div className="text-center text-gray-500 text-sm mt-10 border-t border-gray-700 pt-6">
-                © {new Date().getFullYear()} Your Consultancy. All rights reserved.
-            </div>
-        </footer>
-    );
+        {/* Services */}
+        <div>
+          <h3 className="text-lg font-semibold mb-4 text-gray-200">Our Services</h3>
+          <ul className="space-y-2 text-sm text-gray-400">
+            <li><a href="/services#germany" className="hover:text-white transition">Study in Germany</a></li>
+            <li><a href="/services#projects" className="hover:text-white transition">Real-World Projects</a></li>
+          </ul>
+        </div>
+
+        {/* Contact */}
+        <div>
+          <h3 className="text-lg font-semibold mb-4 text-gray-200">Contact</h3>
+          <ul className="text-sm text-gray-400 space-y-2">
+            <li><span className="text-white">Email:</span> info@systechconsultancy.in</li>
+            <li><span className="text-white">Phone:</span> +91 99999 99999</li>
+            <li><span className="text-white">Support:</span> Mon–Sat, 9AM–7PM (WhatsApp)</li>
+          </ul>
+        </div>
+
+        {/* Social */}
+        <div>
+          <h3 className="text-lg font-semibold mb-4 text-gray-200">Connect With Us</h3>
+          <div className="flex flex-wrap gap-4 text-sm text-gray-400">
+            <a href="#" className="hover:text-white transition">LinkedIn</a>
+            <a href="#" className="hover:text-white transition">Facebook</a>
+            <a href="#" className="hover:text-white transition">Instagram</a>
+            <a href="#" className="hover:text-white transition">YouTube</a>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-12 border-t border-gray-800 pt-6 text-center text-xs text-gray-500">
+        © {new Date().getFullYear()} Systech Consultancy. All rights reserved.
+      </div>
+      
+    </footer>
+  );
 };
 
 export default Footer;

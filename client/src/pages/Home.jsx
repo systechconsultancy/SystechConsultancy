@@ -13,9 +13,9 @@ export default function Home() {
             <p className="text-lg text-gray-700 mb-8">
               Our consultancy is led by a 20‑year German industry veteran — delivering insider-level guidance, program strategy, and professional networking for students across all disciplines.
             </p>
-            <Link to="/contact">
+            <Link to="/counselling">
               <button className="cursor-pointer bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition">
-                Book Free Strategy Call
+                Book a Strategy Call for 250₹
               </button>
             </Link>
           </div>

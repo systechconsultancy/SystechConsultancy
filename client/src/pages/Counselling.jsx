@@ -8,7 +8,7 @@ export default function Counselling() {
 
     const dateRef = useRef(null);
     const [panelOpen, setPanelOpen] = useState(false);
-    const [showPopup, setShowPopup] = useState(false);
+    const [showPopup, setShowPopup] = useState(true);
     const [studentId, setStudentId] = useState(null);
     const [screenshot, setScreenshot] = useState(null);
     const [copied, setCopied] = useState(false);
@@ -137,7 +137,7 @@ export default function Counselling() {
 
     return (
         <div className="min-h-screen bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
-            
+
             <div className="max-w-5xl mx-auto mb-8 bg-white rounded-xl shadow-xl border border-blue-100 overflow-hidden transition-all">
                 <button
                     onClick={() => setPanelOpen(!panelOpen)}
@@ -452,27 +452,42 @@ export default function Counselling() {
 
             {
                 showPopup && (
-                    <div className="fixed inset-0 z-50 backdrop-blur-sm bg-white/20 flex items-center justify-center p-4">
-                        <div className="bg-white rounded-lg shadow-2xl max-w-lg w-full p-6 relative border border-gray-200">
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/20 backdrop-blur-sm p-4">
+                        <div className="relative w-full max-w-md sm:max-w-lg md:max-w-xl bg-blue-50 border border-blue-200 rounded-xl shadow-2xl p-6 sm:p-8">
+
+                            {/* Close Button */}
                             <button
-                                className="absolute top-2 right-3 text-gray-500 hover:text-gray-700 text-2xl"
                                 onClick={() => setShowPopup(false)}
+                                className="absolute top-3 right-4 text-blue-600 hover:text-blue-800 text-2xl"
+                                aria-label="Close"
                             >
                                 &times;
                             </button>
-                            <h2 className="text-xl font-semibold text-blue-900 mb-3">📅 Booking Timeline & Semester Planning</h2>
-                            <p className="text-gray-700 mb-3 leading-relaxed">
-                                Germany has two major intakes — <strong>Winter (Oct)</strong> and <strong>Summer (Apr)</strong>. If you're targeting Winter Semester 2025, <span className="text-red-600 font-semibold">book your counselling before July 10</span>.
+
+                            {/* Content */}
+                            <h2 className="text-lg sm:text-xl font-semibold text-blue-900 mb-2">
+                                📅 Booking Timeline & Semester Planning
+                            </h2>
+                            <p className="text-sm sm:text-base text-gray-700 mb-3 leading-relaxed">
+                                Germany primarily has two academic intakes — <strong>Winter Semester (October)</strong> and <strong>Summer Semester (April)</strong>.
                             </p>
-                            <ul className="list-disc list-inside text-gray-800 space-y-2 mb-4">
-                                <li><strong>Winter Semester 2025:</strong> Deadlines range from <span className="text-blue-700 font-medium">May to July 15</span>.</li>
-                                <li><strong>Summer Semester 2026:</strong> Apply between <span className="text-blue-700 font-medium">October and January</span>.</li>
+
+                            <ul className="list-disc list-inside text-sm sm:text-base text-gray-800 space-y-2 mb-4">
+                                <li>
+                                    <strong>Winter Semester 2025:</strong> Deadlines between <span className="text-blue-700 font-medium">May and July 15, 2025</span>. If aiming for this, you must book before <span className="text-red-600 font-semibold">July 10</span>.
+                                </li>
+                                <li>
+                                    <strong>Summer Semester 2026:</strong> Great for those needing more prep time. Applications open in <span className="text-blue-700 font-medium">October</span> and close by <span className="text-blue-700 font-medium">early January</span>.
+                                </li>
                             </ul>
-                            <p className="text-gray-700 text-sm">
-                                We'll help you plan a personalized timeline during the call.
+
+                            <p className="text-sm sm:text-base text-gray-700">
+                                Not sure which intake suits you best? That’s exactly what we’ll figure out during the call — based on your goals and academic history.
                             </p>
                         </div>
                     </div>
+
+
                 )
             }
         </div >
