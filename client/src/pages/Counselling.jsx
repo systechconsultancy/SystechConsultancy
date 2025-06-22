@@ -1,23 +1,19 @@
 import { useState, useRef } from "react";
-import { initiateBooking, confirmBooking } from "../utils/api";
+import { initiateBooking } from "../utils/api";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
-import { ClipboardDocumentIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
-import imageCompression from 'browser-image-compression';
+import CounsellingForm from "../components/counselling/CounsellingForm";
+import PaymentForm from "../components/counselling/PaymentForm";
 
 export default function Counselling() {
-
     const dateRef = useRef(null);
     const [panelOpen, setPanelOpen] = useState(false);
-    const [showPopup, setShowPopup] = useState(true);
-    const [studentId, setStudentId] = useState(null);
-    const [screenshot, setScreenshot] = useState(null);
-    const [copied, setCopied] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
     const [showPaymentUI, setShowPaymentUI] = useState(false);
+    const [studentId, setStudentId] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [txnId, setTxnId] = useState("");
     const [errors, setErrors] = useState({});
-    const emailRef = useRef(null);
     const [successMsg, setSuccessMsg] = useState("");
+
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -28,14 +24,8 @@ export default function Counselling() {
         mode: "",
         dateOfCall: ""
     });
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-    const today = new Date();
-    const maxDate = new Date();
-    maxDate.setDate(today.getDate() + 30);
 
-    const formatDate = (date) => date.toISOString().split("T")[0];
+    const emailRef = useRef(null);
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
@@ -48,6 +38,7 @@ export default function Counselling() {
 
             if (res.success) {
                 setStudentId(res.data.studentId);
+                setLoading(false);
                 setShowPaymentUI(true);
             } else {
                 if (res.error === "DUPLICATE_EMAIL") {
@@ -67,77 +58,8 @@ export default function Counselling() {
         }
     };
 
-    const handleConfirmPayment = async () => {
-
-
-        if (!studentId || !formData.dateOfCall || !txnId.trim()) {
-            setErrors({ general: "All fields are required." });
-            return;
-        }
-
-        try {
-            setLoading(true);
-
-            const screenshotForm = new FormData();
-            const compressedFile = await imageCompression(screenshot, {
-                maxSizeMB: 0.5,
-                maxWidthOrHeight: 1080,
-                useWebWorker: true,
-            });
-            screenshotForm.append("screenshot", compressedFile);
-            const uploadRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/upload-screenshot`, {
-                method: "POST",
-                body: screenshotForm,
-            });
-
-            const uploadData = await uploadRes.json();
-
-            if (!uploadData.url) {
-                throw new Error("Screenshot upload failed.");
-            }
-
-            const res = await confirmBooking({
-                studentId,
-                txnId: txnId,
-                screenshotUrl: uploadData.url,
-                dateOfCall: formData.dateOfCall,
-            });
-
-            if (res.success) {
-                setShowPaymentUI(false);
-                setSuccessMsg(res.message);
-                setFormData({
-                    name: "",
-                    email: "",
-                    phone: "",
-                    fieldOfIntrest: "",
-                    academicBackground: "",
-                    expectationsFromcall: "",
-                    mode: "",
-                    dateOfCall: "",
-                });
-                setTxnId("");
-            } else {
-                setErrors({ general: res.message });
-            }
-        } catch (err) {
-            setErrors({ general: "Payment confirmation failed." });
-        } finally {
-            setLoading(false);
-        }
-    };
-
-
-    const handleCopy = () => {
-        navigator.clipboard.writeText("systech@upi");
-        setCopied(true);
-    };
-
-
-
     return (
         <div className="min-h-screen bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
-
             <div className="max-w-5xl mx-auto mb-8 bg-white rounded-xl shadow-xl border border-blue-100 overflow-hidden transition-all">
                 <button
                     onClick={() => setPanelOpen(!panelOpen)}
@@ -192,7 +114,6 @@ export default function Counselling() {
                     </div>
                 )}
             </div>
-
             {successMsg ? (
                 <div className="bg-green-100 border border-green-400 text-green-800 p-6 rounded-md text-center shadow">
                     <h2 className="text-xl font-semibold mb-2">Booking Confirmed!</h2>
@@ -200,254 +121,24 @@ export default function Counselling() {
                     <p className="mt-2 text-sm text-gray-600">You'll receive session details via email soon.</p>
                 </div>
             ) : showPaymentUI ? (
-                <div className="bg-white border border-gray-200 shadow-lg rounded-lg p-6 max-w-md mx-auto text-center">
-                    <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                        🧾 Pay ₹250 to Book Your Session
-                    </h2>
+                <PaymentForm
+                    studentId={studentId}
+                    dateOfCall={formData.dateOfCall}
+                    setFormData={setFormData}
+                    setSuccessMsg={setSuccessMsg}
+                    setShowPaymentUI={setShowPaymentUI}
+                />
 
-                    <div className="mb-4">
-                        <img
-                            src="/qr-code.png"
-                            alt="QR Code"
-                            className="mx-auto w-48 h-48 rounded-md border"
-                        />
-                        <div className="mt-3">
-                            <div className="flex items-center justify-center gap-2 text-sm text-gray-700">
-                                <span className="font-medium">UPI ID:</span>
-                                <span
-                                    className="font-mono text-pink-600 cursor-pointer select-all"
-                                    onClick={handleCopy}
-                                >
-                                    systech@upi
-                                </span>
-                                <ClipboardDocumentIcon
-                                    className="w-5 h-5 text-gray-500 hover:text-pink-600 cursor-pointer"
-                                    onClick={handleCopy}
-                                />
-                            </div>
-
-                            {copied && (
-                                <div className="mt-1 text-green-600 text-xs flex justify-center items-center gap-1">
-                                    <CheckCircleIcon className="w-4 h-4" />
-                                    Copied to clipboard
-                                </div>
-                            )}
-                            <p className="text-xs text-gray-500 mt-1">
-                                Scan the QR or use UPI ID to pay ₹250 from any UPI app.
-                            </p>
-                        </div>
-
-                    </div>
-
-                    <div className="mt-6 text-left">
-                        <label
-                            htmlFor="txnId"
-                            className="block text-sm font-medium text-gray-700 mb-1"
-                        >
-                            Transaction ID / Reference Number
-                        </label>
-                        <input
-                            type="text"
-                            id="txnId"
-                            value={txnId}
-                            onChange={(e) => setTxnId(e.target.value)}
-                            placeholder="Enter Transaction ID"
-                            className="text-black w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
-                            required
-                        />
-                    </div>
-
-                    <div className="mt-4 text-left">
-                        <label
-                            htmlFor="screenshot"
-                            className="block text-sm font-medium text-gray-700 mb-1"
-                        >
-                            Upload Payment Screenshot <span className="text-gray-500">(Max 750KB)</span>
-                        </label>
-                        <input
-                            type="file"
-                            id="screenshot"
-                            accept="image/png, image/jpeg"
-                            onChange={(e) => {
-                                const file = e.target.files[0];
-                                if (file && file.size > 750 * 1024) {
-                                    alert("File size exceeds 750KB. Please upload a smaller file.");
-                                    e.target.value = null;
-                                    return;
-                                }
-                                setScreenshot(file);
-                            }}
-                            className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100 cursor-pointer"
-                            required
-                        />
-                    </div>
-
-                    <button
-                        onClick={handleConfirmPayment}
-                        disabled={!txnId || !screenshot || loading}
-                        className={`mt-6 w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition ${loading ? "opacity-60 cursor-not-allowed" : ""
-                            }`}
-                    >
-                        {loading ? "Processing..." : "Confirm & Finalize Booking"}
-                    </button>
-
-                    <p className="text-xs text-gray-500 mt-3">
-                        We'll verify your payment and send a confirmation via email.
-                    </p>
-                </div>
-
-
-
-            ) :
-                (
-                    <form
-                        onSubmit={handleFormSubmit}
-                        className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10"
-                    >
-                        <div>
-                            <label className="text-sm font-medium text-gray-700">
-                                FULL NAME (AS PER GOVERNMENT ID)<span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                name="name"
-                                type="text"
-                                required
-                                value={formData.name}
-                                onChange={handleChange}
-                                className="mt-1 p-3 text-black w-full rounded border border-gray-300 focus:ring-2 focus:ring-blue-400"
-                                placeholder="Enter your full name"
-                            />
-                        </div >
-
-                        <div>
-                            <label className="text-sm font-medium text-gray-700">
-                                EMAIL ADDRESS<span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                ref={emailRef}
-                                name="email"
-                                type="email"
-                                required
-                                value={formData.email}
-                                onChange={handleChange}
-                                className="mt-1 p-3 text-black w-full rounded border border-gray-300 focus:ring-2 focus:ring-blue-400"
-                                placeholder="name@gmail.com"
-                            />
-                            {errors.email && <p className="text-sm text-red-600 mt-1">{errors.email}</p>}
-                        </div>
-
-                        <div>
-                            <label className="text-sm font-medium text-gray-700">
-                                Phone Number<span
-                                    className="text-red-500">*</span>
-                            </label>
-                            <input
-                                name="phone"
-                                type="tel"
-                                required
-                                value={formData.phone}
-                                onChange={handleChange}
-                                className="mt-1 p-3 text-black w-full rounded border border-gray-300 focus:ring-2 focus:ring-blue-400"
-                                placeholder="+91 98765 43210"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="text-sm font-medium text-gray-700">Field of Interest</label>
-                            <input
-                                name="fieldOfIntrest"
-                                type="text"
-                                value={formData.fieldOfIntrest}
-                                onChange={handleChange}
-                                className="mt-1 p-3 text-black w-full rounded border border-gray-300 focus:ring-2 focus:ring-blue-400"
-                                placeholder="e.g. Data Science"
-                            />
-                        </div>
-
-                        <div className="md:col-span-2">
-                            <label className="text-sm font-medium text-gray-700">
-                                Academic Background<span className="text-red-500">*</span>
-                            </label>
-                            <textarea
-                                name="academicBackground"
-                                rows="3"
-                                required
-                                value={formData.academicBackground}
-                                onChange={handleChange}
-                                className="mt-1 p-3 text-black w-full rounded border border-gray-300 focus:ring-2 focus:ring-blue-400"
-                                placeholder="Mention your degree, GPA, experience..."
-                            />
-                        </div>
-
-                        <div className="md:col-span-2">
-                            <label className="text-sm font-medium text-gray-700">What are you expecting from the call?</label>
-                            <textarea
-                                name="expectationsFromcall"
-                                rows="3"
-                                value={formData.expectationsFromcall}
-                                onChange={handleChange}
-                                className="mt-1 p-3 text-black w-full rounded border border-gray-300 focus:ring-2 focus:ring-blue-400"
-                            />
-                        </div>
-
-                        <div className="md:col-span-2">
-                            <label className="text-sm font-medium text-gray-700">Preferred Mode<span className="text-red-500">*</span></label>
-                            <select
-                                name="mode"
-                                required
-                                value={formData.mode}
-                                onChange={handleChange}
-                                className="mt-1 p-3 text-black w-full rounded border border-gray-300 bg-white focus:ring-2 focus:ring-blue-400"
-                            >
-                                <option value="">-- Select Mode --</option>
-                                <option value="online">Online</option>
-                                <option value="offline">Offline</option>
-                            </select>
-                        </div>
-
-                        <div className="md:col-span-2 relative">
-                            <label className="text-sm font-medium text-gray-700">
-                                Preferred Date<span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                type="date"
-                                name="dateOfCall"
-                                required
-                                value={formData.dateOfCall}
-                                onChange={handleChange}
-                                min={formatDate(today)}
-                                max={formatDate(maxDate)}
-                                className="peer text-black w-full p-3 rounded border border-gray-300 mt-1 bg-white cursor-pointer focus:ring-2 focus:ring-blue-400 appearance-none"
-                            />
-
-                            {!formData.dateOfCall && (
-                                <span className="md:hidden absolute left-3 top-[49px] text-gray-400 text-sm pointer-events-none peer-focus:hidden sm:text-base">
-                                    Select a date
-                                </span>
-                            )}
-                        </div>
-
-                        {
-                            errors.general && (
-                                <div className="col-span-2 text-red-600 text-sm mt-2">{errors.general}</div>
-                            )
-                        }
-
-                        <div className="md:col-span-2 text-center">
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className={`${loading ? "bg-gray-400 cursor-not-allowed" : "bg-pink-600 hover:bg-pink-700"
-                                    } text-white px-6 py-3 rounded-lg text-lg font-medium transition duration-200 shadow-md`}
-                            >
-                                {loading ? "Proceeding..." : "Pay ₹250 & Book Session"}
-                            </button>
-                            <p className="text-sm text-gray-500 mt-2">
-                                Payment will be processed via secure gateway.
-                            </p>
-                        </div>
-                    </form >
-                )
+            ) : (
+                <CounsellingForm
+                    formData={formData}
+                    setFormData={setFormData}
+                    emailRef={emailRef}
+                    errors={errors}
+                    loading={loading}
+                    onSubmit={handleFormSubmit}
+                />
+            )
             }
 
             {
@@ -486,8 +177,6 @@ export default function Counselling() {
                             </p>
                         </div>
                     </div>
-
-
                 )
             }
         </div >
