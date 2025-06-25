@@ -1,4 +1,4 @@
-const CounsellingForm = ({ formData, setFormData, emailRef, errors, loading, onSubmit }) => {
+const CounsellingForm = ({ formData, setFormData, emailRef, errors, loading, onSubmit, amount }) => {
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -36,13 +36,14 @@ const CounsellingForm = ({ formData, setFormData, emailRef, errors, loading, onS
                     ref={emailRef}
                     name="email"
                     type="email"
+                    autoCapitalize="words"
                     required
                     value={formData.email}
                     onChange={handleChange}
                     className="mt-1 p-3 text-black w-full rounded border border-gray-300 focus:ring-2 focus:ring-blue-400"
                     placeholder="name@gmail.com"
                 />
-                {errors.email && <p className="text-sm text-red-600 mt-1">{errors.email}</p>}
+                {errors && errors.email && <p className="text-sm text-red-600 mt-1">{errors.email}</p>}
             </div>
 
             <div>
@@ -53,6 +54,7 @@ const CounsellingForm = ({ formData, setFormData, emailRef, errors, loading, onS
                 <input
                     name="phone"
                     type="tel"
+                    pattern="^[6-9]\d{9}$"
                     required
                     value={formData.phone}
                     onChange={handleChange}
@@ -64,9 +66,9 @@ const CounsellingForm = ({ formData, setFormData, emailRef, errors, loading, onS
             <div>
                 <label className="text-sm font-medium text-gray-700">Field of Interest</label>
                 <input
-                    name="fieldOfIntrest"
+                    name="fieldOfInterest"
                     type="text"
-                    value={formData.fieldOfIntrest}
+                    value={formData.fieldOfInterest}
                     onChange={handleChange}
                     className="mt-1 p-3 text-black w-full rounded border border-gray-300 focus:ring-2 focus:ring-blue-400"
                     placeholder="e.g. Data Science"
@@ -91,9 +93,9 @@ const CounsellingForm = ({ formData, setFormData, emailRef, errors, loading, onS
             <div className="md:col-span-2">
                 <label className="text-sm font-medium text-gray-700">What are you expecting from the call?</label>
                 <textarea
-                    name="expectationsFromcall"
+                    name="expectationsFromCall"
                     rows="3"
-                    value={formData.expectationsFromcall}
+                    value={formData.expectationsFromCall}
                     onChange={handleChange}
                     className="mt-1 p-3 text-black w-full rounded border border-gray-300 focus:ring-2 focus:ring-blue-400"
                 />
@@ -137,7 +139,7 @@ const CounsellingForm = ({ formData, setFormData, emailRef, errors, loading, onS
             </div>
 
             {
-                errors.general && (
+                errors && errors.general && (
                     <div className="col-span-2 text-red-600 text-sm mt-2">{errors.general}</div>
                 )
             }
@@ -149,7 +151,7 @@ const CounsellingForm = ({ formData, setFormData, emailRef, errors, loading, onS
                     className={`${loading ? "bg-gray-400 cursor-not-allowed" : "bg-pink-600 hover:bg-pink-700"
                         } text-white px-6 py-3 rounded-lg text-lg font-medium transition duration-200 shadow-md`}
                 >
-                    {loading ? "Proceeding..." : "Pay ₹250 & Book Session"}
+                    {loading ? "Proceeding..." : `Pay ₹${amount} & Book Session`}
                 </button>
                 <p className="text-sm text-gray-500 mt-2">
                     Payment will be processed via secure gateway.

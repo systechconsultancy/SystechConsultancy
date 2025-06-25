@@ -4,14 +4,27 @@ const studentSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true, lowercase: true, trim: true },
   phone: { type: String, required: true, unique: true, trim: true },
-  fieldOfIntrest: { type: String },
+  fieldOfInterest: { type: String },
   academicBackground: { type: String, required: true },
-  expectationsFromcall: { type: String },
-  mode : { type: String, required: true, enum: ['online', 'offline'] },
+  expectationsFromCall: { type: String },
+  mode: { type: String, enum: ["online", "offline"], required: true },
   dateOfCall: { type: Date, required: true },
-  isPaid: { type: Boolean, default: false },
-}, { timestamps: true });
 
-studentSchema.index({ email: 1 }, { unique: true });
+  counsellingType: {
+    type: String,
+    enum: ["individual", "group"],
+    default: "individual",
+    required: true,
+  },
+  groupId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Group",
+    default: null,
+  },
+  isPaid: {
+    type: Boolean,
+    default: false,
+  },
+}, { timestamps: true });
 
 export default mongoose.model("Student", studentSchema);

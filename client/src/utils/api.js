@@ -1,26 +1,60 @@
-
 import axios from "axios";
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
-export const initiateBooking = async (studentData) => {
+// INDIVIDUAL BOOKING
+export const initiateIndividualBooking = async (studentData) => {
   try {
-    const res = await axios.post(`${API_BASE}/api/bookings/initiate`, studentData);
+    const res = await axios.post(`${API_BASE}/api/bookings/individual/initiate`, studentData);
     return res.data;
   } catch (error) {
     return handleApiError(error);
   }
 };
 
-export const confirmBooking = async ({ studentId, dateOfCall, txnId, screenshotUrl }) => {
+export const confirmIndividualBooking = async ({ studentId, txnId, screenshotUrl, amount }) => {
   try {
-    const res = await axios.post(`${API_BASE}/api/bookings/confirm`, { studentId, dateOfCall, txnId, screenshotUrl });
+    const res = await axios.post(`${API_BASE}/api/bookings/individual/confirm`, {
+      studentId,
+      txnId,
+      screenshotUrl,
+      amount,
+    });
     return res.data;
   } catch (error) {
     return handleApiError(error);
   }
 };
 
+// GROUP BOOKING
+export const initiateGroupBooking = async ({ students, date, mode }) => {
+  try {
+    const res = await axios.post(`${API_BASE}/api/bookings/group/initiate`, {
+      students,
+      date,
+      mode,
+    });
+    return res.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+};
+
+export const confirmGroupBooking = async ({ groupId, txnId, screenshotUrl, amount }) => {
+  try {
+    const res = await axios.post(`${API_BASE}/api/bookings/group/confirm`, {
+      groupId,
+      txnId,
+      screenshotUrl,
+      amount,
+    });
+    return res.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+};
+
+// COMMON
 export const getFullBookingDates = async () => {
   try {
     const res = await axios.get(`${API_BASE}/api/bookings/full-dates`);
@@ -30,8 +64,8 @@ export const getFullBookingDates = async () => {
   }
 };
 
+// ERROR HANDLER
 function handleApiError(error) {
-
   if (error.response?.data) {
     return {
       success: false,
@@ -39,7 +73,6 @@ function handleApiError(error) {
       error: error.response.data.error || "UNKNOWN",
     };
   }
-
 
   return {
     success: false,

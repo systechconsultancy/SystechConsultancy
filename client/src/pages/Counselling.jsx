@@ -1,26 +1,37 @@
-import { useState, useRef } from "react";
-import { initiateBooking } from "../utils/api";
+import { useState, useRef, useEffect } from "react";
+import { initiateIndividualBooking, initiateGroupBooking } from "../utils/api";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import CounsellingForm from "../components/counselling/CounsellingForm";
+import GroupCounsellingForm from "../components/counselling/GroupCounsellingForm";
 import PaymentForm from "../components/counselling/PaymentForm";
+import { calculatePayableAmount } from "../utils/pricing";
+import { format } from "date-fns";
 
 export default function Counselling() {
-    const dateRef = useRef(null);
+    const [formType, setFormType] = useState("individual");
+    const [noOfStudents, setNoOfStudents] = useState(0);
+    const [groupData, setGroupData] = useState({
+        students: [],
+        date: "",
+        mode: ""
+    });
     const [panelOpen, setPanelOpen] = useState(false);
-    const [showPopup, setShowPopup] = useState(false);
+    const [showPopup, setShowPopup] = useState(true);
     const [showPaymentUI, setShowPaymentUI] = useState(false);
     const [studentId, setStudentId] = useState(null);
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({});
+    const [groupId, setGroupId] = useState(null);
     const [successMsg, setSuccessMsg] = useState("");
+    const payableAmount = calculatePayableAmount(formType, noOfStudents);
 
     const [formData, setFormData] = useState({
         name: "",
         email: "",
         phone: "",
-        fieldOfIntrest: "",
+        fieldOfInterest: "",
         academicBackground: "",
-        expectationsFromcall: "",
+        expectationsFromCall: "",
         mode: "",
         dateOfCall: ""
     });
@@ -34,7 +45,7 @@ export default function Counselling() {
         setLoading(true);
 
         try {
-            const res = await initiateBooking(formData);
+            const res = await initiateIndividualBooking(formData);
 
             if (res.success) {
                 setStudentId(res.data.studentId);
@@ -57,6 +68,73 @@ export default function Counselling() {
             setLoading(false);
         }
     };
+
+    const handleGroupSubmit = async (e) => {
+        e.preventDefault();
+        setErrors({});
+        setLoading(true);
+
+        if (!groupData.date || !groupData.mode) {
+            setErrors({ general: "Please select both a date and a mode." });
+            setLoading(false);
+            return;
+        }
+
+        try {
+
+            const payload = {
+                students: groupData.students,
+                date: format(groupData.date, "yyyy-MM-dd"),
+                mode: groupData.mode,
+            };
+
+            const res = await initiateGroupBooking(payload);
+
+            if (res.success) {
+                setGroupId(res.data.groupId);
+                setShowPaymentUI(true);
+            } else {
+                if (res.error === "DUPLICATE_EMAIL") {
+                    setErrors({ email: res.message });
+                } 
+                else if (res.error === "SLOTS_FULL") {
+                    setErrors({ date: res.message });
+                } else {
+                    setErrors({ general: res.message });
+                }
+            }
+        } catch (err) {
+            console.error("Group registration failed:", err);
+            setErrors({ general: err.response?.data?.message || "Unexpected error occurred." });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        setLoading(false);
+        setGroupData({
+            students: [],
+            date: "",
+            mode: ""
+        });
+        setFormData({
+            name: "",
+            email: "",
+            phone: "",
+            fieldOfInterest: "",
+            academicBackground: "",
+            expectationsFromCall: "",
+            mode: "",
+            dateOfCall: ""
+        });
+        setGroupId(null);
+        setErrors({});
+        setStudentId(null);
+        setNoOfStudents(0);
+        setFormType("individual");
+    }, [successMsg]);
+
 
     return (
         <div className="min-h-screen bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
@@ -114,22 +192,57 @@ export default function Counselling() {
                     </div>
                 )}
             </div>
-            {successMsg ? (
+
+            {successMsg && (
                 <div className="bg-green-100 border border-green-400 text-green-800 p-6 rounded-md text-center shadow">
                     <h2 className="text-xl font-semibold mb-2">Booking Confirmed!</h2>
                     <p>{successMsg}</p>
                     <p className="mt-2 text-sm text-gray-600">You'll receive session details via email soon.</p>
                 </div>
-            ) : showPaymentUI ? (
-                <PaymentForm
-                    studentId={studentId}
-                    dateOfCall={formData.dateOfCall}
-                    setFormData={setFormData}
-                    setSuccessMsg={setSuccessMsg}
-                    setShowPaymentUI={setShowPaymentUI}
-                />
+            )}
 
-            ) : (
+            {!showPaymentUI && !successMsg && (
+                <div className="max-w-2xl mx-auto mb-6 text-left text-black">
+                    <label className="block font-medium mb-2 text-lg">Choose Counselling Type</label>
+                    <div className="flex gap-6">
+                        <label className="flex items-center gap-2">
+                            <input
+                                type="radio"
+                                name="counsellingType"
+                                value="individual"
+                                checked={formType === "individual"}
+                                onChange={() => setFormType("individual")}
+                                className="accent-pink-600"
+                            />
+                            <span>Individual</span>
+                        </label>
+                        <label className="flex items-center gap-2">
+                            <input
+                                type="radio"
+                                name="counsellingType"
+                                value="group"
+                                checked={formType === "group"}
+                                onChange={() => setFormType("group")}
+                                className="accent-blue-600"
+                            />
+                            <span>Group</span>
+                        </label>
+                    </div>
+                </div>
+            )}
+
+            {formType && !showPaymentUI && !successMsg && (
+                <div className="max-w-2xl mx-auto mb-6 text-blue-900 text-lg font-semibold">
+                    Payable Amount: ₹
+                    <span className="text-blue-700">
+                        {calculatePayableAmount(formType, noOfStudents)}
+                    </span>
+                </div>
+            )}
+
+
+
+            {formType === "individual" && !showPaymentUI && !successMsg && (
                 <CounsellingForm
                     formData={formData}
                     setFormData={setFormData}
@@ -137,9 +250,36 @@ export default function Counselling() {
                     errors={errors}
                     loading={loading}
                     onSubmit={handleFormSubmit}
+                    amount={payableAmount}
                 />
-            )
-            }
+            )}
+
+            {formType === "group" && !showPaymentUI && !successMsg && (
+                <GroupCounsellingForm
+                    groupData={groupData}
+                    setGroupData={setGroupData}
+                    loading={loading}
+                    setLoading={setLoading}
+                    errors={errors}
+                    setErrors={setErrors}
+                    noOfStudents={noOfStudents}
+                    setNoOfStudents={setNoOfStudents}
+                    onSubmit={handleGroupSubmit}
+                    amount={payableAmount}
+                />
+            )}
+
+            {showPaymentUI && (
+                <PaymentForm
+                    id={formType === "group" ? groupId : studentId}
+                    isGroup={formType === "group"}
+                    amount={payableAmount}
+                    setSuccessMsg={setSuccessMsg}
+                    setShowPaymentUI={setShowPaymentUI}
+                />
+            )}
+
+
 
             {
                 showPopup && (
