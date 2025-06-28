@@ -81,6 +81,8 @@ export default function Counselling() {
                 if (res.error === "DUPLICATE_EMAIL") {
                     setErrors({ email: res.message });
                     emailRef.current?.focus();
+                } else if (res.error === "DUPLICATE_PHONE") {
+                    setErrors({ phone: res.message });
                 } else if (res.error === "SLOTS_FULL") {
                     setErrors({ dateOfCall: res.message });
                 } else {
