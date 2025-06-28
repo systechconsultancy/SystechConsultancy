@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { confirmIndividualBooking, confirmGroupBooking } from "../../utils/api";
 import { ClipboardDocumentIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
 import imageCompression from 'browser-image-compression';
-import { useRef } from "react";
+import axios from 'axios';
 
 const PaymentForm = ({ id, isGroup, amount = 250, setSuccessMsg, setShowPaymentUI }) => {
   const [txnId, setTxnId] = useState("");
@@ -105,6 +105,23 @@ const PaymentForm = ({ id, isGroup, amount = 250, setSuccessMsg, setShowPaymentU
     setCopied(true);
   };
 
+  const [qrUrl, setQrUrl] = useState(null);
+
+  useEffect(() => {
+    const fetchQr = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/payment-qr/${amount}`);
+        if (res.data.success) {
+          setQrUrl(res.data.data.url);
+        }
+      } catch (err) {
+        console.error("Failed to fetch QR:", err);
+      }
+    };
+
+    fetchQr();
+  }, [amount]);
+
   return (
     <div className="bg-white border border-gray-200 shadow-lg rounded-lg p-6 max-w-md mx-auto text-center">
       <h2 className="text-xl font-semibold text-gray-800 mb-4">
@@ -113,7 +130,7 @@ const PaymentForm = ({ id, isGroup, amount = 250, setSuccessMsg, setShowPaymentU
 
       {/* QR & UPI ID */}
       <div className="mb-4">
-        <img src="/qr-code.png" alt="QR Code" className="mx-auto w-48 h-48 rounded-md border" />
+        <img src={qrUrl} alt={`Pay ₹${amount} QR`} className="mx-auto w-48 h-48 rounded-md border" />
         <div className="mt-3 flex items-center justify-center gap-2 text-sm text-gray-700">
           <span className="font-medium">UPI ID:</span>
           <span className="font-mono text-pink-600 cursor-pointer" onClick={handleCopy}>

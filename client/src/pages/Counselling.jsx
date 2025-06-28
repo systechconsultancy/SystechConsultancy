@@ -29,12 +29,30 @@ export default function Counselling() {
         name: "",
         email: "",
         phone: "",
+        dob: "",
+        city: "",
+        userType: "", // "student" or "professional"
+
+        // Student fields
+        collegeName: "",
+        branch: "",
+        cgpa: "",
+        graduationYear: "",
+        backlogs: "",
+
+        // Professional fields
+        jobTitle: "",
+        company: "",
+        experienceYears: "",
+        careerGoal: "",
+
+        // Common
         fieldOfInterest: "",
-        academicBackground: "",
         expectationsFromCall: "",
         mode: "",
         dateOfCall: ""
     });
+
 
     const emailRef = useRef(null);
 
@@ -43,6 +61,14 @@ export default function Counselling() {
         setErrors({});
         setSuccessMsg("");
         setLoading(true);
+
+        if (!formData.userType) {
+            setErrors({
+                general: "Please select whether you are a student or a working professional.",
+            });
+            setLoading(false);
+            return;
+        }
 
         try {
             const res = await initiateIndividualBooking(formData);
@@ -96,7 +122,7 @@ export default function Counselling() {
             } else {
                 if (res.error === "DUPLICATE_EMAIL") {
                     setErrors({ email: res.message });
-                } 
+                }
                 else if (res.error === "SLOTS_FULL") {
                     setErrors({ date: res.message });
                 } else {
@@ -122,8 +148,25 @@ export default function Counselling() {
             name: "",
             email: "",
             phone: "",
+            dob: "",
+            city: "",
+            userType: "", // "student" or "professional"
+
+            // Student fields
+            collegeName: "",
+            branch: "",
+            cgpa: "",
+            graduationYear: "",
+            backlogs: "",
+
+            // Professional fields
+            jobTitle: "",
+            company: "",
+            experienceYears: "",
+            careerGoal: "",
+
+            // Common
             fieldOfInterest: "",
-            academicBackground: "",
             expectationsFromCall: "",
             mode: "",
             dateOfCall: ""
@@ -193,91 +236,95 @@ export default function Counselling() {
                 )}
             </div>
 
-            {successMsg && (
-                <div className="bg-green-100 border border-green-400 text-green-800 p-6 rounded-md text-center shadow">
-                    <h2 className="text-xl font-semibold mb-2">Booking Confirmed!</h2>
-                    <p>{successMsg}</p>
-                    <p className="mt-2 text-sm text-gray-600">You'll receive session details via email soon.</p>
-                </div>
-            )}
+            <div className="max-w-3xl mx-auto sm:px-6 lg:px-0">
 
-            {!showPaymentUI && !successMsg && (
-                <div className="max-w-2xl mx-auto mb-6 text-left text-black">
-                    <label className="block font-medium mb-2 text-lg">Choose Counselling Type</label>
-                    <div className="flex gap-6">
-                        <label className="flex items-center gap-2">
-                            <input
-                                type="radio"
-                                name="counsellingType"
-                                value="individual"
-                                checked={formType === "individual"}
-                                onChange={() => setFormType("individual")}
-                                className="accent-pink-600"
-                            />
-                            <span>Individual</span>
-                        </label>
-                        <label className="flex items-center gap-2">
-                            <input
-                                type="radio"
-                                name="counsellingType"
-                                value="group"
-                                checked={formType === "group"}
-                                onChange={() => setFormType("group")}
-                                className="accent-blue-600"
-                            />
-                            <span>Group</span>
-                        </label>
+                {successMsg && (
+                    <div className="bg-green-100 border border-green-400 text-green-800 p-6 rounded-md text-center shadow">
+                        <h2 className="text-xl font-semibold mb-2">Booking Confirmed!</h2>
+                        <p>{successMsg}</p>
+                        <p className="mt-2 text-sm text-gray-600">You'll receive session details via email soon.</p>
                     </div>
-                </div>
-            )}
+                )}
 
-            {formType && !showPaymentUI && !successMsg && (
-                <div className="max-w-2xl mx-auto mb-6 text-blue-900 text-lg font-semibold">
-                    Payable Amount: ₹
-                    <span className="text-blue-700">
-                        {calculatePayableAmount(formType, noOfStudents)}
-                    </span>
-                </div>
-            )}
+                {!showPaymentUI && !successMsg && (
+                    <div className="max-w-2xl mb-6 text-left text-black">
+                        <label className="block font-medium mb-2 text-lg">Choose Counselling Type</label>
+                        <div className="flex gap-6">
+                            <label className="flex items-center gap-2">
+                                <input
+                                    type="radio"
+                                    name="counsellingType"
+                                    value="individual"
+                                    checked={formType === "individual"}
+                                    onChange={() => setFormType("individual")}
+                                    className="accent-pink-600"
+                                />
+                                <span>Individual</span>
+                            </label>
+                            <label className="flex items-center gap-2">
+                                <input
+                                    type="radio"
+                                    name="counsellingType"
+                                    value="group"
+                                    checked={formType === "group"}
+                                    onChange={() => setFormType("group")}
+                                    className="accent-blue-600"
+                                />
+                                <span>Group</span>
+                            </label>
+                        </div>
+                    </div>
+                )}
+
+                {formType && !showPaymentUI && !successMsg && (
+                    <div className="max-w-2xl mb-6 text-blue-900 text-lg font-semibold">
+                        Payable Amount: ₹
+                        <span className="text-blue-700">
+                            {calculatePayableAmount(formType, noOfStudents)}
+                        </span>
+                    </div>
+                )}
 
 
 
-            {formType === "individual" && !showPaymentUI && !successMsg && (
-                <CounsellingForm
-                    formData={formData}
-                    setFormData={setFormData}
-                    emailRef={emailRef}
-                    errors={errors}
-                    loading={loading}
-                    onSubmit={handleFormSubmit}
-                    amount={payableAmount}
-                />
-            )}
+                {formType === "individual" && !showPaymentUI && !successMsg && (
+                    <CounsellingForm
+                        formData={formData}
+                        setFormData={setFormData}
+                        emailRef={emailRef}
+                        errors={errors}
+                        loading={loading}
+                        onSubmit={handleFormSubmit}
+                        amount={payableAmount}
+                    />
+                )}
 
-            {formType === "group" && !showPaymentUI && !successMsg && (
-                <GroupCounsellingForm
-                    groupData={groupData}
-                    setGroupData={setGroupData}
-                    loading={loading}
-                    setLoading={setLoading}
-                    errors={errors}
-                    setErrors={setErrors}
-                    noOfStudents={noOfStudents}
-                    setNoOfStudents={setNoOfStudents}
-                    onSubmit={handleGroupSubmit}
-                    amount={payableAmount}
-                />
-            )}
+                {formType === "group" && !showPaymentUI && !successMsg && (
+                    <GroupCounsellingForm
+                        groupData={groupData}
+                        setGroupData={setGroupData}
+                        loading={loading}
+                        setLoading={setLoading}
+                        errors={errors}
+                        setErrors={setErrors}
+                        noOfStudents={noOfStudents}
+                        setNoOfStudents={setNoOfStudents}
+                        onSubmit={handleGroupSubmit}
+                        amount={payableAmount}
+                    />
+                )}
 
-            {showPaymentUI && (
-                <PaymentForm
-                    id={formType === "group" ? groupId : studentId}
-                    isGroup={formType === "group"}
-                    amount={payableAmount}
-                    setSuccessMsg={setSuccessMsg}
-                    setShowPaymentUI={setShowPaymentUI}
-                />
-            )}
+                {showPaymentUI && (
+                    <PaymentForm
+                        id={formType === "group" ? groupId : studentId}
+                        isGroup={formType === "group"}
+                        amount={payableAmount}
+                        setSuccessMsg={setSuccessMsg}
+                        setShowPaymentUI={setShowPaymentUI}
+                    />
+                )}
+
+            </div>
 
 
 

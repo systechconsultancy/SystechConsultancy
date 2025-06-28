@@ -2,12 +2,50 @@ import mongoose from "mongoose";
 
 const studentSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-  phone: { type: String, required: true, unique: true, trim: true },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+    trim: true,
+  },
+  phone: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+  },
+  dob: { type: Date }, // optional DOB field
+  city: { type: String }, // optional city
+
+  userType: {
+    type: String,
+    enum: ["student", "professional"],
+    required: true,
+  },
+
+  // Student-specific fields
+  collegeName: { type: String },
+  branch: { type: String },
+  cgpa: { type: String },
+  graduationYear: { type: Number, min: 2000, max: new Date().getFullYear() + 5 },
+  backlogs: { type: String },
+
+  // Professional-specific fields
+  jobTitle: { type: String },
+  company: { type: String },
+  experienceYears: { type: String },
+  careerGoal: { type: String },
+
+  // Common fields
   fieldOfInterest: { type: String },
-  academicBackground: { type: String, required: true },
   expectationsFromCall: { type: String },
-  mode: { type: String, enum: ["online", "offline"], required: true },
+
+  mode: {
+    type: String,
+    enum: ["online", "offline"],
+    required: true,
+  },
   dateOfCall: { type: Date, required: true },
 
   counsellingType: {

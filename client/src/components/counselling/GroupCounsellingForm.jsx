@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import Accordion from "../shared/Accordion";
 import DatePicker from "react-datepicker";
+import StudentSection from "./StudentSection";
+import ProfessionalSection from "./ProfessionalSection";
 import "react-datepicker/dist/react-datepicker.css";
 
 const GroupCounsellingForm = ({
@@ -41,9 +43,27 @@ const GroupCounsellingForm = ({
       name: "",
       email: "",
       phone: "",
+      dob: "",
+      city: "",
+      userType: "",
+
+      // Student-specific
+      collegeName: "",
+      branch: "",
+      cgpa: "",
+      backlogs: "",
+      graduationYear: "",
+
+      // Professional-specific
+      jobTitle: "",
+      company: "",
+      experienceYears: "",
+      careerGoal: "",
+      projectDomains: "",
+
+      // Common
       fieldOfInterest: "",
-      academicBackground: "",
-      expectationsFromCall: ""
+      expectationsFromCall: "",
     };
 
     const updated = [...(groupData.students || [])];
@@ -57,7 +77,7 @@ const GroupCounsellingForm = ({
 
     setGroupData((prev) => ({
       ...prev,
-      students: updated
+      students: updated,
     }));
 
     setOpenIndex(0);
@@ -93,6 +113,7 @@ const GroupCounsellingForm = ({
             onToggle={() => setOpenIndex((prev) => (prev === index ? null : index))}
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Common Fields */}
               <div>
                 <label className="text-sm font-medium text-gray-700">Full Name *</label>
                 <input
@@ -103,9 +124,6 @@ const GroupCounsellingForm = ({
                   className="mt-1 w-full p-3 text-black border border-gray-300 rounded"
                   required
                 />
-                {errors && errors[index]?.name && (
-                  <p className="text-sm text-red-600 mt-1">{errors[index].name}</p>
-                )}
               </div>
 
               <div>
@@ -118,9 +136,6 @@ const GroupCounsellingForm = ({
                   className="mt-1 w-full p-3 text-black border border-gray-300 rounded"
                   required
                 />
-                {errors && errors[index]?.email && (
-                  <p className="text-sm text-red-600 mt-1">{errors[index].email}</p>
-                )}
               </div>
 
               <div>
@@ -130,37 +145,73 @@ const GroupCounsellingForm = ({
                   name="phone"
                   pattern="^[6-9][0-9]{9}$"
                   placeholder="e.g. 9876543210"
-                  title="Enter a valid 10-digit Indian number starting with 6–9"
+                  title="Enter a valid 10-digit Indian number"
                   value={student.phone}
                   onChange={(e) => handleStudentChange(index, e)}
                   className="mt-1 w-full p-3 text-black border border-gray-300 rounded"
                   required
                 />
-                {errors && errors[index]?.phone && (
-                  <p className="text-sm text-red-600 mt-1">{errors[index].phone}</p>
-                )}
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-700">Field of Interest</label>
+                <label className="text-sm font-medium text-gray-700">Date of Birth</label>
                 <input
-                  type="text"
-                  name="fieldOfInterest"
-                  value={student.fieldOfInterest}
+                  type="date"
+                  name="dob"
+                  value={student.dob}
                   onChange={(e) => handleStudentChange(index, e)}
                   className="mt-1 w-full p-3 text-black border border-gray-300 rounded"
                 />
               </div>
 
-              <div className="md:col-span-2">
-                <label className="text-sm font-medium text-gray-700">Academic Background *</label>
-                <textarea
-                  name="academicBackground"
-                  rows="3"
-                  value={student.academicBackground}
+              <div>
+                <label className="text-sm font-medium text-gray-700">City (required if offline)</label>
+                <input
+                  type="text"
+                  name="city"
+                  value={student.city}
+                  onChange={(e) => handleStudentChange(index, e)}
+                  className="mt-1 w-full p-3 text-black border border-gray-300 rounded"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium text-gray-700">You are *</label>
+                <select
+                  name="userType"
+                  value={student.userType}
                   onChange={(e) => handleStudentChange(index, e)}
                   className="mt-1 w-full p-3 text-black border border-gray-300 rounded"
                   required
+                >
+                  <option value="">-- Select --</option>
+                  <option value="student">Student</option>
+                  <option value="professional">Working Professional</option>
+                </select>
+              </div>
+
+              {/* Conditional Sections */}
+              {student.userType === "student" && (
+                <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <StudentSection formData={student} handleChange={(e) => handleStudentChange(index, e)} />
+                </div>
+              )}
+
+              {student.userType === "professional" && (
+                <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <ProfessionalSection formData={student} handleChange={(e) => handleStudentChange(index, e)} />
+                </div>
+              )}
+
+              {/* Common Fields */}
+              <div className="md:col-span-2">
+                <label className="text-sm font-medium text-gray-700">Field of Interest</label>
+                <input
+                  name="fieldOfInterest"
+                  type="text"
+                  value={student.fieldOfInterest}
+                  onChange={(e) => handleStudentChange(index, e)}
+                  className="mt-1 p-3 w-full text-black rounded border border-gray-300"
                 />
               </div>
 

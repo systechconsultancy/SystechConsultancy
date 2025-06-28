@@ -10,9 +10,30 @@ import { v4 as uuidv4 } from "uuid";
 
 const initiateIndividualBooking = async (req, res) => {
   try {
-    const { name, email, phone, fieldOfInterest, academicBackground, expectationsFromCall, mode, dateOfCall } = req.body;
+    const {
+      name,
+      email,
+      phone,
+      dob,
+      city,
+      userType,
+      collegeName,
+      branch,
+      cgpa,
+      graduationYear,
+      backlogs,
+      jobTitle,
+      company,
+      experienceYears,
+      careerGoal,
+      fieldOfInterest,
+      expectationsFromCall,
+      mode,
+      dateOfCall,
+    } = req.body;
 
-    if (!name || !email || !phone || !academicBackground || !mode || !dateOfCall) {
+    // ✅ Basic field validation
+    if (!name || !email || !phone || !userType || !mode || !dateOfCall || !city) {
       return res.status(400).json({
         success: false,
         message: "Required fields are missing.",
@@ -20,7 +41,28 @@ const initiateIndividualBooking = async (req, res) => {
       });
     }
 
-    // ✅ Check booking capacity first
+    // ✅ Conditional validation based on userType
+    if (userType === "student") {
+      if (!collegeName || !branch || !cgpa || !backlogs || !graduationYear) {
+        return res.status(400).json({
+          success: false,
+          message: "Please fill all academic details.",
+          error: "VALIDATION_ERROR",
+        });
+      }
+    }
+
+    if (userType === "professional") {
+      if (!jobTitle || !company || !experienceYears || !careerGoal) {
+        return res.status(400).json({
+          success: false,
+          message: "Please fill all job-related details.",
+          error: "VALIDATION_ERROR",
+        });
+      }
+    }
+
+    // ✅ Check if the selected date is full
     const dateDoc = await DailyBookingSummary.findOne({ date: dateOfCall });
     if (dateDoc && dateDoc.count >= 5) {
       return res.status(400).json({
@@ -30,7 +72,7 @@ const initiateIndividualBooking = async (req, res) => {
       });
     }
 
-    // ✅ Proceed to create/update student (no need for transaction here)
+    // ✅ Find existing unpaid student or create new
     let student = await Student.findOne({ email });
 
     if (student && student.isPaid) {
@@ -41,26 +83,44 @@ const initiateIndividualBooking = async (req, res) => {
       });
     }
 
-    if (student) {
-      student.name = name;
-      student.phone = phone;
-      student.fieldOfInterest = fieldOfInterest;
-      student.academicBackground = academicBackground;
-      student.expectationsFromCall = expectationsFromCall;
-      student.mode = mode;
-      student.dateOfCall = dateOfCall;
-    } else {
-      student = new Student({
-        name,
-        email,
-        phone,
-        fieldOfInterest,
-        academicBackground,
-        expectationsFromCall,
-        mode,
-        dateOfCall,
-        isPaid: false,
+    // ✅ Build student payload
+    const studentPayload = {
+      name,
+      email: email.trim().toLowerCase(),
+      phone: phone.trim(),
+      dob,
+      city,
+      userType,
+      fieldOfInterest,
+      expectationsFromCall,
+      mode,
+      dateOfCall,
+      isPaid: false,
+    };
+
+    if (userType === "student") {
+      Object.assign(studentPayload, {
+        collegeName,
+        branch,
+        cgpa,
+        graduationYear,
+        backlogs,
       });
+    }
+
+    if (userType === "professional") {
+      Object.assign(studentPayload, {
+        jobTitle,
+        company,
+        experienceYears,
+        careerGoal,
+      });
+    }
+
+    if (student) {
+      Object.assign(student, studentPayload);
+    } else {
+      student = new Student(studentPayload);
     }
 
     await student.save();
@@ -80,6 +140,7 @@ const initiateIndividualBooking = async (req, res) => {
     });
   }
 };
+
 
 const confirmIndividualBooking = async (req, res) => {
   const session = await mongoose.startSession();
@@ -217,16 +278,20 @@ const initiateGroupBooking = async (req, res) => {
   }
 
   const requiredFieldsMissing = students.some((s) =>
-    !s.name || !s.email || !s.phone || !s.academicBackground
+    !s.name || !s.email || !s.phone || !s.userType ||
+    (mode === "offline" && !s.city) ||
+    (s.userType === "student" && (!s.collegeName || !s.branch || !s.cgpa || !s.graduationYear)) ||
+    (s.userType === "professional" && (!s.jobTitle || !s.company || !s.experienceYears || !s.careerGoal))
   );
 
   if (requiredFieldsMissing) {
     return res.status(400).json({
       success: false,
-      message: "All students must fill required fields.",
+      message: "All fields must be filled correctly.",
       error: "VALIDATION_ERROR",
     });
   }
+
 
   const groupToken = uuidv4();
   let savedStudents = [];
@@ -234,7 +299,7 @@ const initiateGroupBooking = async (req, res) => {
 
   try {
     await session.withTransaction(async () => {
-      // ✅ Step 1: Re-check slot availability inside transaction
+      // Step 1: Re-check slot availability inside transaction
       const summary = await DailyBookingSummary.findOne({ date }).session(session);
       const count = summary?.count || 0;
       const availableSlots = 5 - count;
@@ -243,62 +308,50 @@ const initiateGroupBooking = async (req, res) => {
         throw new Error("SLOTS_FULL");
       }
 
-      // ✅ Step 2: Process all students
-      for (const data of students) {
-        let {
-          name,
-          email,
-          phone,
-          fieldOfInterest,
-          academicBackground,
-          expectationsFromCall,
-        } = data;
+      // Step 2: Create group first (empty student array for now)
+      newGroup = new Group({
+        students: [],
+        dateOfCall: date,
+        groupSize: students.length,
+        mode,
+        groupToken,
+      });
 
-        email = email.trim().toLowerCase();
+      await newGroup.save({ session });
+
+      // Step 3: Save each student with groupId assigned immediately
+      for (const data of students) {
+        const {
+          name, email, phone, dob, city, userType,
+          collegeName, branch, cgpa, graduationYear, backlogs,
+          jobTitle, company, experienceYears, careerGoal,
+          fieldOfInterest, expectationsFromCall
+        } = data;
 
         const existing = await Student.findOne({ email }).session(session);
         if (existing && existing.isPaid) {
           throw new Error(`DUPLICATE_EMAIL:${email}`);
         }
 
+        const studentData = {
+          name, email: email.trim().toLowerCase(), phone, dob, city, userType,
+          collegeName, branch, cgpa, graduationYear, backlogs,
+          jobTitle, company, experienceYears, careerGoal,
+          fieldOfInterest, expectationsFromCall,
+          mode, dateOfCall: date,
+          groupToken, counsellingType: "group", isPaid: false, groupId: newGroup._id,
+        };
+
         const student = existing
-          ? Object.assign(existing, {
-            name,
-            phone,
-            fieldOfInterest,
-            academicBackground,
-            expectationsFromCall,
-            mode,
-            dateOfCall: date,
-            groupToken,
-            counsellingType: "group",
-          })
-          : new Student({
-            name,
-            email,
-            phone,
-            fieldOfInterest,
-            academicBackground,
-            expectationsFromCall,
-            mode,
-            dateOfCall: date,
-            groupToken,
-            isPaid: false,
-            counsellingType: "group",
-          });
+          ? Object.assign(existing, studentData)
+          : new Student(studentData);
 
         await student.save({ session });
         savedStudents.push(student._id);
       }
 
-      // ✅ Step 3: Create group
-      newGroup = new Group({
-        students: savedStudents,
-        dateOfCall: date,
-        groupSize: savedStudents.length,
-        mode,
-        groupToken,
-      });
+      // Step 4: Update group with student IDs
+      newGroup.students = savedStudents;
       await newGroup.save({ session });
     });
 
@@ -318,7 +371,7 @@ const initiateGroupBooking = async (req, res) => {
     if (err.message === "SLOTS_FULL") {
       return res.status(400).json({
         success: false,
-        message: "Group counselling is not allowed on this date due to limited availability.",
+        message: "Selected date is fully booked for group counselling.",
         error: "SLOTS_FULL",
       });
     }
@@ -327,7 +380,7 @@ const initiateGroupBooking = async (req, res) => {
       const email = err.message.split(":")[1];
       return res.status(400).json({
         success: false,
-        message: `Email ${email} has already been used for booking.`,
+        message: `Email : ${email} has already been used for booking.`,
         error: "DUPLICATE_EMAIL",
       });
     }
@@ -353,9 +406,11 @@ const confirmGroupBooking = async (req, res) => {
       return res.status(400).json({ success: false, message: "All fields are required." });
     }
 
+    let group;
+
     await session.withTransaction(async () => {
 
-      const group = await Group.findById(groupId).populate("students").session(session);
+      group = await Group.findById(groupId).populate("students").session(session);
       if (!group) {
         throw new Error("GROUP_NOT_FOUND");
       }
@@ -372,7 +427,6 @@ const confirmGroupBooking = async (req, res) => {
       // Update student payment statuses
       for (const student of group.students) {
         student.isPaid = true;
-        student.groupId = groupId;
         await student.save({ session });
       }
 
@@ -421,7 +475,6 @@ const confirmGroupBooking = async (req, res) => {
       };
       const parts = new Intl.DateTimeFormat('en-CA', options).formatToParts(utcDate);
       const date = `${parts.find(p => p.type === 'year').value}-${parts.find(p => p.type === 'month').value}-${parts.find(p => p.type === 'day').value}`;
-      const group = await Group.findById(groupId).populate("students");
       const lead = group.students[0];
       sendInvoice(lead.name, lead.email, lead.phone, date)
         .then(() => console.log("Invoice sent to lead"))
