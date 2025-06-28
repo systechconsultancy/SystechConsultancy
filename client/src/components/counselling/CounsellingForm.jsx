@@ -59,6 +59,7 @@ const CounsellingForm = ({ formData, setFormData, emailRef, errors, loading, onS
                         placeholder="+91 98765 43210"
                         className="mt-1 p-3 text-black w-full rounded border border-gray-300 focus:ring-2 focus:ring-blue-400"
                     />
+                    {errors?.phone && <p className="text-sm text-red-600 mt-1">{errors.phone}</p>}
                 </div>
 
                 {/* Date of Birth */}

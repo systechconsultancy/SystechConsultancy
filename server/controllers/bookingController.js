@@ -72,21 +72,24 @@ const initiateIndividualBooking = async (req, res) => {
       });
     }
 
-    // ✅ Find existing unpaid student or create new
-    let student = await Student.findOne({ email });
-
-    if (student && student.isPaid) {
+     const existingByEmail = await Student.findOne({ email : email.trim().toLowerCase() }, { isPaid: 1 });
+    if (existingByEmail) {
       return res.status(400).json({
         success: false,
-        message: "This email has already been used to book a session.",
+        message: existingByEmail.isPaid
+          ? "This email has already been used to book a session."
+          : "This email is already used by another user.",
         error: "DUPLICATE_EMAIL",
       });
     }
 
-    if (phone && student.isPaid) {
+    const existingByPhone = await Student.findOne({ phone: phone.trim() }, { isPaid: 1 });
+    if (existingByPhone) {
       return res.status(400).json({
         success: false,
-        message: "This phone number has already been used to book a session.",
+        message: existingByPhone.isPaid
+          ? "This phone number has already been used to book a session."
+          : "This phone number is already used by another user.",
         error: "DUPLICATE_PHONE",
       });
     }
@@ -125,13 +128,9 @@ const initiateIndividualBooking = async (req, res) => {
       });
     }
 
-    if (student) {
-      Object.assign(student, studentPayload);
-    } else {
-      student = new Student(studentPayload);
-    }
-
+    const student = new Student(studentPayload);
     await student.save();
+
 
     return res.status(200).json({
       success: true,

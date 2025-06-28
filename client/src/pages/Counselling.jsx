@@ -88,6 +88,7 @@ export default function Counselling() {
                 } else {
                     setErrors({ general: res.message });
                 }
+
             }
         } catch (err) {
             console.log(err);
