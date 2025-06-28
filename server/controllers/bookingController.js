@@ -83,6 +83,14 @@ const initiateIndividualBooking = async (req, res) => {
       });
     }
 
+    if (phone && student.isPaid) {
+      return res.status(400).json({
+        success: false,
+        message: "This phone number has already been used to book a session.",
+        error: "DUPLICATE_PHONE",
+      });
+    }
+
     // ✅ Build student payload
     const studentPayload = {
       name,
