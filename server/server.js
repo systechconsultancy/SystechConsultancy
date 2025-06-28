@@ -27,7 +27,7 @@ app.use("/api/payment-qr", qrRoutes);
 
 
 app.get('/', (req, res) => {
-    res.send('Testing');
+    res.send('ERROR 404 : URL NOT FOUND');
 });
 
 const PORT = process.env.PORT || 5000;
