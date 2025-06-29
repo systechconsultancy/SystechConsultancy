@@ -19,15 +19,16 @@ export default function Contact() {
       <section className="py-16 px-4 sm:px-6 lg:px-10 bg-gray-50">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10">
           {/* CONTACT FORM */}
-          <form className="bg-white p-8 rounded-xl shadow-md space-y-6 transition-all">
+          <form className="bg-white p-8 rounded-xl shadow-md space-y-6 transition-all text-black">
             <h2 className="text-2xl font-semibold text-blue-900 mb-4">Contact Form</h2>
+
             <div className="grid sm:grid-cols-2 gap-6">
               <div>
                 <label className="block mb-1 font-medium text-gray-800">Full Name</label>
                 <input
                   type="text"
                   required
-                  className="w-full border rounded-md px-4 py-2 shadow-sm focus:outline-pink-500"
+                  className="w-full border-b border-gray-400 bg-transparent px-0 py-2 focus:outline-none focus:border-pink-500 transition"
                   placeholder="Enter your name"
                 />
               </div>
@@ -36,35 +37,37 @@ export default function Contact() {
                 <input
                   type="email"
                   required
-                  className="w-full border rounded-md px-4 py-2 shadow-sm focus:outline-pink-500"
-                  placeholder="you@example.com"
+                  className="w-full border-b border-gray-400 bg-transparent px-0 py-2 focus:outline-none focus:border-pink-500 transition"
+                  placeholder="you@gmail.com"
                 />
               </div>
               <div>
                 <label className="block mb-1 font-medium text-gray-800">Phone</label>
                 <input
                   type="tel"
-                  className="w-full border rounded-md px-4 py-2 shadow-sm focus:outline-pink-500"
-                  placeholder="Optional"
+                  className="w-full border-b border-gray-400 bg-transparent px-0 py-2 focus:outline-none focus:border-pink-500 transition"
+                  placeholder="9999999999"
                 />
               </div>
               <div>
                 <label className="block mb-1 font-medium text-gray-800">Subject</label>
                 <input
                   type="text"
-                  className="w-full border rounded-md px-4 py-2 shadow-sm focus:outline-pink-500"
+                  className="w-full border-b border-gray-400 bg-transparent px-0 py-2 focus:outline-none focus:border-pink-500 transition"
                   placeholder="e.g. Counselling, Partnership"
                 />
               </div>
             </div>
+
             <div>
               <label className="block mb-1 font-medium text-gray-800">Message</label>
               <textarea
                 rows="5"
-                className="w-full border rounded-md px-4 py-2 shadow-sm focus:outline-pink-500 resize-y"
+                className="w-full border-b border-gray-400 bg-transparent px-0 py-2 focus:outline-none focus:border-pink-500 transition resize-y"
                 placeholder="How can we help you?"
               />
             </div>
+
             <button
               type="submit"
               className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-6 rounded-md shadow-md transition"
@@ -73,28 +76,27 @@ export default function Contact() {
             </button>
           </form>
 
+
           {/* CONTACT DETAILS */}
           <div className="bg-white p-8 rounded-xl shadow-md space-y-6 transition-all text-gray-800 text-[clamp(1rem,2vw,1.1rem)]">
             <h2 className="text-2xl font-semibold text-blue-900">Contact Information</h2>
             <div>
-              <p className="mb-1 font-medium">📍 Address:</p>
+              <p className="mb-1 font-medium">Address:</p>
               <p className="text-gray-700">
                 SystechConsultancy<br />
-                Nandyal, Andhra Pradesh, India<br />
-                + Germany (Remote Office)
+                Nandyal, Andhra Pradesh, India. <br />518501
               </p>
             </div>
             <div>
-              <p className="mb-1 font-medium">📞 Phone:</p>
-              <p className="text-gray-700">+91-XXXXXXXXXX</p>
+              <p className="mb-1 font-medium">Phone: <span className="text-gray-700"><a href={`tel:8096343600`}>+91 8096343600</a></span></p>
             </div>
             <div>
-              <p className="mb-1 font-medium">✉️ Email:</p>
-              <p className="text-gray-700">support@systechconsultancy.com</p>
+              <p className="mb-1 font-medium">Email: <span className="text-gray-700"><a href={`mailto:contact@systechconsultancy.in`}>contact@systechconsultancy.in</a></span></p>
             </div>
             <div>
-              <p className="mb-1 font-medium">⏰ Working Hours:</p>
-              <p className="text-gray-700">Mon–Sat: 10:00 AM – 7:00 PM IST</p>
+              <p className="mb-1 font-medium">Working Hours:</p>
+              <p className="text-gray-700">Mon–Sat: 4:00 PM – 9:00 PM IST</p>
+              <p className="text-gray-700">Sun: 11:00 AM – 7:00 PM IST</p>
             </div>
             <div className="pt-4">
               <iframe

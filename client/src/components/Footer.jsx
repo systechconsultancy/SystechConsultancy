@@ -36,28 +36,32 @@ const Footer = () => {
         <div>
           <h3 className="text-lg font-semibold mb-4 text-gray-200">Contact</h3>
           <ul className="text-sm text-gray-400 space-y-2">
-            <li><span className="text-white">Email:</span> info@systechconsultancy.in</li>
-            <li><span className="text-white">Phone:</span> +91 99999 99999</li>
-            <li><span className="text-white">Support:</span> Mon–Sat, 9AM–7PM (WhatsApp)</li>
+            <li>
+              <span className="text-white">Email:</span>{' '}
+              <a href="mailto:contact@systechconsultancy.in" className="hover:text-white transition">
+                contact@systechconsultancy.in
+              </a>
+            </li>
+            <li>
+              <span className="text-white">Phone:</span>{' '}
+              <a href="tel:+918096343600" className="hover:text-white transition">
+                +91 8096343600
+              </a>
+            </li>
+            <li><span className="text-white">Support:</span> Mon–Sat, 10AM – 6PM</li>
           </ul>
         </div>
 
-        {/* Social */}
+        {/* Social - Temporarily Removed */}
         <div>
           <h3 className="text-lg font-semibold mb-4 text-gray-200">Connect With Us</h3>
-          <div className="flex flex-wrap gap-4 text-sm text-gray-400">
-            <a href="#" className="hover:text-white transition">LinkedIn</a>
-            <a href="#" className="hover:text-white transition">Facebook</a>
-            <a href="#" className="hover:text-white transition">Instagram</a>
-            <a href="#" className="hover:text-white transition">YouTube</a>
-          </div>
+          <p className="text-sm text-gray-400">Coming soon on LinkedIn, Instagram, and more.</p>
         </div>
       </div>
 
       <div className="mt-12 border-t border-gray-800 pt-6 text-center text-xs text-gray-500">
         © {new Date().getFullYear()} Systech Consultancy. All rights reserved.
       </div>
-      
     </footer>
   );
 };

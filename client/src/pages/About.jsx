@@ -1,65 +1,74 @@
-import React from "react";
+import founderImg from "../assets/founder.jpg";
 
 export default function About() {
   return (
     <>
       {/* HERO SECTION */}
       <section className="bg-gradient-to-r from-blue-50 to-white py-16 px-4 sm:px-6 lg:px-10">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center">
-          <div>
-            <h1 className="text-blue-900 font-bold text-balance leading-tight text-[clamp(1.8rem,4vw,2.8rem)] mb-6 transition-all">
-              About <span className="text-pink-500">SystechConsultancy</span>
-            </h1>
-            <p className="text-gray-700 text-[clamp(1rem,2.2vw,1.15rem)] leading-relaxed mb-6 transition-all text-justify">
-              SystechConsultancy is more than a consultancy — it's a bridge between India's aspirations and Germany's world-class education ecosystem. Our mission is to equip ambitious Indian students and professionals with strategic, structured pathways to higher education and career access in Europe.
+        <div className="max-w-7xl mx-auto px-4 sm:px-10 md:px-16">
+          <h1 className="text-blue-900 font-bold leading-tight text-[clamp(1.8rem,4vw,2.8rem)] text-center mb-6">
+            About <span className="text-pink-500">SystechConsultancy</span>
+          </h1>
+
+          <div className="space-y-6 text-[clamp(1rem,2.2vw,1.15rem)] text-gray-700 text-justify leading-relaxed">
+            <p>
+              <strong>SystechConsultancy</strong> is a specialized Indo-German higher education consultancy built on deep industry roots, real mentorship, and results-oriented guidance. We help Indian students and professionals unlock admission to Germany’s top public universities—by aligning aspirations with structured strategy and local expertise.
             </p>
-            <p className="text-gray-700 text-[clamp(0.95rem,2vw,1.1rem)] text-justify transition-all">
-              Every student receives personal attention, and every decision is backed by real-world insight—not assumptions. We're led by deep-rooted Indo-German experience, making the journey smooth, authentic, and future-proof.
+
+            <p>
+              Unlike typical study-abroad agencies, our guidance is led directly by <strong>Malikireddy Krishna Reddy</strong>, an R&D Director with 20+ years of experience at Mercedes-Benz, Bosch, Siemens, and more. Our advice isn’t outsourced—it’s based on firsthand insight from someone who has lived, worked, and succeeded in Germany’s academic and professional ecosystem.
             </p>
+
+            <p>
+              We work closely with students to build the right program fit, craft , and navigate housing and part-time jobs after arrival. Every service is tailored—not templated—because your journey deserves clarity, confidence, and long-term career value.
+            </p>
+
+            <p className="text-gray-800 font-medium">
+              🤝 <strong>Strategic Tie-Ups:</strong> We collaborate with trusted global and domestic partners to strengthen our student services — from visa guidance and university selection to post-arrival integration in Germany.
+            </p>
+
           </div>
-          <img
-            src="/assets/about-indo-german.jpg"
-            alt="Germany and India education pathway"
-            className="w-full rounded-xl shadow-xl transition duration-500 hover:scale-[1.02]"
-          />
+
         </div>
       </section>
 
       {/* FOUNDER SECTION */}
       <section className="bg-white py-16 px-4 sm:px-6 lg:px-10">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-blue-900 text-[clamp(1.6rem,4vw,2.3rem)] font-semibold mb-6">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-center text-blue-900 text-[clamp(1.6rem,4vw,2.3rem)] font-semibold mb-10">
             Meet the Visionary Behind Our Journey
           </h2>
-          <p className="text-gray-700 text-[clamp(1rem,2vw,1.15rem)] max-w-3xl mx-auto mb-12 leading-relaxed text-balance">
-            With over two decades in German R&D, Maliki Reddy Krishna Reddy is an engineer, innovator, and educator with firsthand experience at Mercedes-Benz, Bosch, Siemens, and more. His mentorship reflects the perfect blend of technical depth, academic clarity, and cultural insight.
-          </p>
-          <div className="grid md:grid-cols-2 gap-10 items-start">
-            <img
-              src="/assets/founder-portrait.jpg"
-              alt="Maliki Reddy"
-              className="w-full rounded-xl shadow-lg transition duration-500 hover:scale-105"
-            />
-            <ul className="text-left space-y-4 text-[clamp(0.95rem,2vw,1.05rem)] text-gray-800 leading-relaxed">
-              <li>
-                🎓 <strong>Education:</strong> M.S. Automotive Systems – RWTH Aachen, Germany
-              </li>
-              <li>
-                ⚙️ <strong>Expertise:</strong> Systems Engineering, MBSE, MBD, CFD, Powertrain, Safety Systems
-              </li>
-              <li>
-                🏢 <strong>Experience:</strong> 21+ years in the German automotive & renewable sectors
-              </li>
-              <li>
-                📘 <strong>Patents:</strong> Multiple innovations in control systems, injectors, and blade friction
-              </li>
-              <li>
-                🌍 <strong>Consulting:</strong> Indo-European training, cross-cultural hiring, project strategy
-              </li>
-            </ul>
+
+          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+            {/* Image + Divider Wrapper */}
+            <div className="flex flex-col items-center lg:items-start relative">
+              <img
+                src={founderImg}
+                alt="Malikireddy Krishna Reddy"
+                className="rounded-3xl w-[200px] h-[200px] lg:w-[300px] lg:h-[300px] object-cover shadow-lg transition-transform duration-300 hover:scale-105"
+              />
+              {/* Divider (only on lg screens) */}
+              <div className="hidden lg:block h-full w-[2px] bg-gray-300 absolute right-[-32px] top-0 bottom-0" />
+            </div>
+
+            {/* Text Section */}
+            <div className="flex-1 space-y-6 text-[clamp(1rem,2vw,1.1rem)] text-gray-800">
+              <p className="leading-relaxed text-justify">
+                With over two decades in German R&D, Malikireddy Krishna Reddy is an engineer, innovator, and educator with firsthand experience at Mercedes-Benz, Bosch, Siemens, and more. His mentorship reflects the perfect blend of technical depth, academic clarity, and cultural insight.
+              </p>
+
+              <ul className="space-y-4 leading-relaxed">
+                <li>🎓 <strong>Education:</strong> M.S. Automotive Systems – RWTH Aachen, Germany</li>
+                <li>⚙️ <strong>Expertise:</strong> Systems Engineering, MBSE, MBD, CFD, Powertrain, Safety Systems</li>
+                <li>🏢 <strong>Experience:</strong> 21+ years in the German automotive & renewable sectors</li>
+                <li>📘 <strong>Patents:</strong> Multiple innovations in control systems, injectors, and blade friction</li>
+                <li>🌍 <strong>Consulting:</strong> Indo-European training, cross-cultural hiring, project strategy</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
+
 
       {/* DIFFERENTIATORS */}
       <section className="bg-gray-50 py-16 px-4 sm:px-6 lg:px-10">

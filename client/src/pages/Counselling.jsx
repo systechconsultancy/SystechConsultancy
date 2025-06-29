@@ -246,6 +246,21 @@ export default function Counselling() {
                         <h2 className="text-xl font-semibold mb-2">Booking Confirmed!</h2>
                         <p>{successMsg}</p>
                         <p className="mt-2 text-sm text-gray-600">You'll receive session details via email soon.</p>
+                        <div className="mt-4 flex justify-center gap-4">
+                            <a
+                                href="/"
+                                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition text-sm font-medium"
+                            >
+                                Back to Home
+                            </a>
+
+                            <a
+                                href="/contact"
+                                className="border border-blue-600 text-blue-600 hover:bg-blue-50 px-4 py-2 rounded transition text-sm font-medium"
+                            >
+                                Need Help?
+                            </a>
+                        </div>
                     </div>
                 )}
 

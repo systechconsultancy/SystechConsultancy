@@ -103,6 +103,19 @@ const GroupCounsellingForm = ({
         </select>
       </div>
 
+      {noOfStudents > 0 && (
+        <div className="bg-blue-50 border border-blue-300 text-blue-800 px-3 py-2 rounded text-sm flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M12 20h.01M4.93 19.07a10 10 0 1114.14 0A10 10 0 014.93 19.07z" />
+          </svg>
+          <span>
+            <strong>Note:</strong> Only <strong>Student 1</strong> will receive the invoice (Payment Receipt) upon successful booking.
+          </span>
+        </div>
+
+      )}
+
+
       {/* Dynamic Accordions */}
       {Array.isArray(groupData.students) &&
         groupData.students.map((student, index) => (
