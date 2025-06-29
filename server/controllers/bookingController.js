@@ -483,7 +483,7 @@ const confirmGroupBooking = async (req, res) => {
       const parts = new Intl.DateTimeFormat('en-CA', options).formatToParts(utcDate);
       const date = `${parts.find(p => p.type === 'year').value}-${parts.find(p => p.type === 'month').value}-${parts.find(p => p.type === 'day').value}`;
       const lead = group.students[0];
-      sendInvoice(lead.name, lead.email, lead.phone, date)
+      sendInvoice(lead.name, lead.email, lead.phone, date, "group", amount)
         .then(() => console.log("Invoice sent to lead"))
         .catch((err) => {
           console.error("Invoice sending failed:", err);
@@ -510,8 +510,5 @@ const confirmGroupBooking = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal Server Error." });
   }
 };
-
-
-
 
 export { initiateIndividualBooking, confirmIndividualBooking, initiateGroupBooking, confirmGroupBooking };
