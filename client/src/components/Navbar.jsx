@@ -9,9 +9,7 @@ const Navbar = () => {
   const navItems = [
     { label: "Home", path: "/" },
     { label: "About", path: "/about" },
-    { label: "Services", path: "/services" },
     { label: "Counselling", path: "/counselling" },
-    { label: "Career", path: "/career" },
   ];
 
   const isActive = (path) => location.pathname === path;
@@ -66,7 +64,7 @@ const Navbar = () => {
             <li>
               <Link to="/contact" className="inline-block group">
                 <button className="px-5 py-2 rounded-md bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold shadow-md hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
-                  Contact
+                  Contact Us
                 </button>
               </Link>
             </li>
@@ -110,7 +108,7 @@ const Navbar = () => {
             <li>
               <Link to="/contact" onClick={() => setIsOpen(false)}>
                 <button className="w-full px-4 py-2 mt-2 rounded-md bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
-                  Contact
+                  Contact Us
                 </button>
               </Link>
             </li>
