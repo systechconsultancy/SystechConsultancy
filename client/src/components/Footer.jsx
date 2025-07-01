@@ -19,7 +19,8 @@ const Footer = () => {
             </div>
           </Link>
           <p className="text-sm text-gray-400 leading-relaxed mt-2">
-            Guiding students to pursue higher education in Germany, offering language courses and real-world skill development for a future-ready career.
+            Guiding students to pursue higher education in Germany through strategic planning,
+            skill-building projects, and 1-on-1 mentorship from industry experts.
           </p>
         </div>
 
@@ -27,8 +28,9 @@ const Footer = () => {
         <div>
           <h3 className="text-lg font-semibold mb-4 text-gray-200">Our Services</h3>
           <ul className="space-y-2 text-sm text-gray-400">
-            <li><a href="/services#germany" className="hover:text-white transition">Study in Germany</a></li>
-            <li><a href="/services#projects" className="hover:text-white transition">Real-World Projects</a></li>
+            <li><Link to="/" className="hover:text-white transition">Study in Germany</Link></li>
+            <li><Link to="/counselling" className="hover:text-white transition">Individual Counselling</Link></li>
+            <li><Link to="/counselling" className="hover:text-white transition">Group Counselling</Link></li>
           </ul>
         </div>
 
@@ -43,22 +45,41 @@ const Footer = () => {
               </a>
             </li>
             <li>
-              <span className="text-white">Phone:</span>{' '}
+              <span className="text-white">Phone 1:</span>{' '}
+              <a href="tel:+919390330592" className="hover:text-white transition">
+                +91 9390330592
+              </a>
+            </li>
+            <li>
+              <span className="text-white">Phone 2:</span>{' '}
               <a href="tel:+918096343600" className="hover:text-white transition">
                 +91 8096343600
               </a>
             </li>
-            <li><span className="text-white">Support:</span> Mon–Sat, 10AM – 6PM</li>
+            <li><span className="text-white">Support Hours:</span> Mon–Sun, 10AM – 6PM IST</li>
           </ul>
         </div>
 
-        {/* Social - Temporarily Removed */}
+        {/* Social */}
         <div>
           <h3 className="text-lg font-semibold mb-4 text-gray-200">Connect With Us</h3>
-          <p className="text-sm text-gray-400">Coming soon on LinkedIn, Instagram, and more.</p>
+          <div className="flex gap-4 text-gray-400">
+            {/* Replace hrefs with actual links when available */}
+            <a href="#" className="hover:text-white transition" aria-label="LinkedIn">
+              <i className="fab fa-linkedin text-xl"></i>
+            </a>
+            <a href="#" className="hover:text-white transition" aria-label="Instagram">
+              <i className="fab fa-instagram text-xl"></i>
+            </a>
+            <a href="#" className="hover:text-white transition" aria-label="YouTube">
+              <i className="fab fa-youtube text-xl"></i>
+            </a>
+          </div>
+          <p className="text-sm text-gray-400 mt-3">Launching soon on major platforms.</p>
         </div>
       </div>
 
+      {/* Footer Bottom */}
       <div className="mt-12 border-t border-gray-800 pt-6 text-center text-xs text-gray-500">
         © {new Date().getFullYear()} Systech Consultancy. All rights reserved.
       </div>

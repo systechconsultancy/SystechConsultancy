@@ -76,37 +76,58 @@ export default function Contact() {
             </button>
           </form>
 
-
           {/* CONTACT DETAILS */}
           <div className="bg-white p-8 rounded-xl shadow-md space-y-6 transition-all text-gray-800 text-[clamp(1rem,2vw,1.1rem)]">
             <h2 className="text-2xl font-semibold text-blue-900">Contact Information</h2>
+
             <div>
               <p className="mb-1 font-medium">Address:</p>
               <p className="text-gray-700">
-                SystechConsultancy<br />
-                Nandyal, Andhra Pradesh, India. <br />518501
+                Systech Consultancy, Indu Royal Homes,<br />
+                Nandyal, Andhra Pradesh, India<br />
+                PIN – 518501
               </p>
             </div>
+
             <div>
-              <p className="mb-1 font-medium">Phone: <span className="text-gray-700"><a href={`tel:8096343600`}>+91 8096343600</a></span></p>
+              <p className="mb-1 font-medium">Phone Numbers:</p>
+              <p className="text-gray-700">
+                <a href="tel:+919390330592" className="hover:text-blue-400">+91 9390330592</a><br />
+                <a href="tel:+918096343600" className="hover:text-blue-400">+91 8096343600</a>
+              </p>
             </div>
+
             <div>
-              <p className="mb-1 font-medium">Email: <span className="text-gray-700"><a href={`mailto:contact@systechconsultancy.in`}>contact@systechconsultancy.in</a></span></p>
+              <p className="mb-1 font-medium">Email:</p>
+              <p className="text-gray-700">
+                <a href="mailto:contact@systechconsultancy.in" className="hover:text-blue-400">
+                  contact@systechconsultancy.in
+                </a>
+              </p>
             </div>
+
             <div>
-              <p className="mb-1 font-medium">Working Hours:</p>
-              <p className="text-gray-700">Mon–Sat: 4:00 PM – 9:00 PM IST</p>
-              <p className="text-gray-700">Sun: 11:00 AM – 7:00 PM IST</p>
+              <p className="mb-1 font-medium">Support Hours:</p>
+              <p className="text-gray-700">
+                Mon–Sun, 10AM – 6PM IST
+              </p>
             </div>
-            <div className="pt-4">
+
+            <div className="w-full flex justify-center">
               <iframe
-                title="Systech Location"
-                className="w-full h-60 rounded-md shadow"
+                src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3479.327911865857!2d78.46019807458907!3d15.496127154526404!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTXCsDI5JzQ2LjAiTiA3OMKwMjcnNDYuMCJF!5e1!3m2!1sen!2sin!4v1751396296729!5m2!1sen!2sin"
+                width="100%"
+                height="250"
+                style={{ border: 0, maxWidth: "600px" }}
+                allowFullScreen
                 loading="lazy"
-                src="https://maps.google.com/maps?q=Nandyal,%20Andhra%20Pradesh&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Systech Consultancy Location"
               />
             </div>
+
           </div>
+
         </div>
       </section>
 
