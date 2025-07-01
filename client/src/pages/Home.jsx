@@ -2,28 +2,28 @@ import { Link } from "react-router-dom";
 export default function Home() {
   return (
     <>
-      <section className="bg-gradient-to-r from-blue-50 to-white py-16 px-6">
+      <section className="bg-gradient-to-r from-blue-50 to-white py-2 px-6">
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 items-center">
           <div>
-            <h1 className="text-5xl font-bold text-blue-900 mb-4 leading-tight">
-              Your Strategic Partner for <span className="text-pink-500">Germany & EU’s</span> Higher Education
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-900 mb-4 leading-snug">
+              Your Gateway to <span className="text-[#ad34d9]">World-Class Education</span> and Careers in <span className="text-[#ad34d9]">Germany</span> & the EU
             </h1>
             <p className="text-lg text-gray-700 mb-8">
               Our consultancy is led by a 20‑year German industry veteran — delivering insider-level guidance, program strategy, and professional networking for students across all disciplines.
             </p>
             <Link to="/counselling">
-              <button className="cursor-pointer bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition">
-                Book a Strategy Call for 250₹
+              <button className="cursor-pointer bg-gradient-to-r from-[#FF6B00] via-white to-[#00A859] hover:opacity-90 text-blue-900 font-semibold py-3 px-4 rounded-lg shadow-lg transition duration-300 border border-blue-100">
+                Reserve Your Counselling Slot Today
               </button>
             </Link>
           </div>
-          <div>
+          {/* <div>
             <img src="/assets/hero-mentorship.jpg" alt="Mentor and student brainstorming" className="rounded-xl shadow-xl w-full" />
-          </div>
+          </div> */}
         </div>
       </section>
 
-      <section className="py-16 px-6 bg-gray-50">
+      <section className="py-8 px-6 bg-gray-50">
         <div className="max-w-6xl mx-auto text-center space-y-6">
           <h2 className="text-3xl font-semibold text-blue-900">
             Powered by 20+ Years of German Industry Experience
@@ -129,7 +129,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      
+
       {/* <section className="py-16 px-6 bg-gray-50">
         <div className="max-w-4xl mx-auto">
           <blockquote className="p-8 bg-white rounded-xl shadow-xl italic text-gray-700 relative">
