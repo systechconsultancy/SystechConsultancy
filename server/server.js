@@ -12,7 +12,7 @@ app.use(cors({
   origin: [
     "https://systechconsultancy.in",
     "https://www.systechconsultancy.in",
-    "http://localhost:5173"
+    "http://localhost:3000"
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
