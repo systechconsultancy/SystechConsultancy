@@ -1,7 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-
-// app/page.jsx
+import LinkedInIcon from "./icons/LinkedInIcon";
+import XingIcon from "./icons/XingIcon";
+import TelephoneIcon from "./icons/TelephoneIcon";
+import MailIcon from "./icons/MailIcon";
 
 export const metadata = {
   title: "Study in Germany | Systech Consultancy",
@@ -61,8 +63,7 @@ export default function Home() {
                 src="/hero_section_img.png"
                 alt="Mentor and student brainstorming"
                 fill
-                loading="lazy"
-                decoding="async"
+                priority={true}
                 className="object-cover rounded-2xl shadow-2xl border border-gray-200"
               />
             </div>
@@ -74,14 +75,7 @@ export default function Home() {
                 aria-label="LinkedIn"
                 className="text-blue-600 hover:text-blue-800 transition-colors"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z" />
-                </svg>
+                <LinkedInIcon />
               </a>
 
               <a
@@ -91,15 +85,7 @@ export default function Home() {
                 aria-label="Xing"
                 className="text-green-600 hover:text-green-800 transition-colors"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 28 31"
-                  fill="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path fill="#0698A0" d="m1.81 5.986 3.655 6.479L0 22.021h6.515l5.429-9.556-3.656-6.479z" />
-                  <path fill="#B7DF4B" d="M21.207 0 10.67 18.644 17.464 31h6.615l-6.905-12.356L27.713 0z" />
-                </svg>
+                <XingIcon />
               </a>
 
               <a
@@ -107,37 +93,7 @@ export default function Home() {
                 aria-label="Call"
                 className="text-gray-700 hover:text-black transition-colors"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 48 48"
-                  className="w-6 h-6"
-                >
-                  <path
-                    d="M38.29 38.29 37 39.64a3.22 3.22 0 0 1-3.05.86l-.25-.06C19.83 37 11.05 28.17 7.56 14.34l-.06-.24a3.22 3.22 0 0 1 .86-3l1.35-1.39a3.24 3.24 0 0 1 4.58 0l4 4a3.23 3.23 0 0 1 0 4.58l-.91.91a5.31 5.31 0 0 0-.25 7.16 41.75 41.75 0 0 0 4.51 4.51 5.31 5.31 0 0 0 7.16-.25l.91-.91a3.3 3.3 0 0 1 4.58 0l4 4a3.23 3.23 0 0 1 0 4.58z"
-                    fill="#4891d3"
-                  />
-                  <path
-                    d="M16 17a1 1 0 0 1-.71-.29l-7-7a1 1 0 0 1 1.42-1.42l7 7a1 1 0 0 1 0 1.42A1 1 0 0 1 16 17zM36 37a1 1 0 0 1-.71-.29l-7-7a1 1 0 0 1 1.42-1.42l7 7a1 1 0 0 1 0 1.42A1 1 0 0 1 36 37z"
-                    fill="#2d72bc"
-                  />
-                  <path
-                    d="M32 24a1 1 0 0 1-1-1 6 6 0 0 0-6-6 1 1 0 0 1 0-2 8 8 0 0 1 8 8 1 1 0 0 1-1 1z"
-                    fill="#a1d51c"
-                  />
-                  <path
-                    d="M37 24a1 1 0 0 1-1-1 11 11 0 0 0-11-11 1 1 0 0 1 0-2 13 13 0 0 1 13 13 1 1 0 0 1-1 1z"
-                    fill="#a1d51c"
-                  />
-                  <path
-                    d="M42 24a1 1 0 0 1-1-1A16 16 0 0 0 25 7a1 1 0 0 1 0-2 18 18 0 0 1 18 18 1 1 0 0 1-1 1z"
-                    fill="#a1d51c"
-                  />
-                  <path
-                    d="m39.71 32.29-4-4a5.26 5.26 0 0 0-7.42 0l-.91.91a3.24 3.24 0 0 1-4.44.15 38.62 38.62 0 0 1-4.29-4.29 3.24 3.24 0 0 1 .15-4.44l.91-.91a5.26 5.26 0 0 0 0-7.42l-4-4a5.26 5.26 0 0 0-7.42 0L7 9.64a5.22 5.22 0 0 0-1.39 4.95l.06.24c3.68 14.6 13 23.87 27.54 27.55l.25.06a4.74 4.74 0 0 0 1.24.16 5.28 5.28 0 0 0 3.71-1.55l1.35-1.34a5.26 5.26 0 0 0-.05-7.42z"
-                    fill="#192835"
-                  />
-                </svg>
-
+                <TelephoneIcon />
               </a>
 
               {/* Mail */}
@@ -146,9 +102,7 @@ export default function Home() {
                 aria-label="Email"
                 className="text-red-600 hover:text-red-800 transition-colors"
               >
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 2l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z" />
-                </svg>
+                <MailIcon />
               </a>
 
             </div>
@@ -173,9 +127,9 @@ export default function Home() {
               "Real-World Industry Insights",
               "Access to German Networks",
               "Mentorship Across All Fields",
-            ].map((item, i) => (
+            ].map((item) => (
               <div
-                key={i}
+                key={item}
                 className="flex items-start gap-4 bg-white p-5 rounded-2xl shadow-md hover:shadow-lg transition duration-300"
               >
                 <span className="bg-blue-600 text-white p-2 rounded-full text-sm">✔</span>
@@ -199,8 +153,8 @@ export default function Home() {
                 desc: "Minimal semester fees (€150–350) at top-ranked universities.",
               },
               {
-                title: "Clear Post‑Study Pathway",
-                desc: "18‑month job seeker visa with excellent career prospects.",
+                title: "Launch Your Global Career",
+                desc: "Secure your future with an 18‑month job seeker visa, opening doors to top-tier companies across the EU.",
               },
               {
                 title: "Industry‑University Synergy",
@@ -210,9 +164,9 @@ export default function Home() {
                 title: "Cultural & Personal Growth",
                 desc: "Safe, multicultural life with part-time work and EU travel access.",
               },
-            ].map((item, idx) => (
+            ].map((item) => (
               <div
-                key={idx}
+                key={item.title}
                 className="bg-gradient-to-b from-blue-50 to-white p-6 rounded-2xl shadow-md hover:shadow-lg transition duration-300 text-left"
               >
                 <h3 className="text-lg font-semibold text-blue-900 mb-2">{item.title}</h3>
@@ -243,9 +197,9 @@ export default function Home() {
                 title: "Expert-Led Mentorship & Career Access",
                 desc: "Get mentored by a 20-year German industry expert and gain insider insights, long-term guidance, and exposure to real German work culture and networks.",
               },
-            ].map((item, idx) => (
+            ].map((item) => (
               <div
-                key={idx}
+                key={item.title}
                 className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition duration-300 text-left"
               >
                 <h3 className="text-lg font-semibold text-blue-900 mb-2">{item.title}</h3>
@@ -276,9 +230,9 @@ export default function Home() {
                 step: "3. Mentorship & Network",
                 desc: "Regular sessions + access to Germany-based industry connections.",
               },
-            ].map((item, idx) => (
+            ].map((item) => (
               <div
-                key={idx}
+                key={item.step}
                 className="bg-gradient-to-b from-blue-50 to-white p-6 rounded-2xl shadow-md hover:shadow-lg transition duration-300 text-left"
               >
                 <h3 className="text-lg font-semibold text-blue-900 mb-2">{item.step}</h3>
@@ -297,10 +251,11 @@ export default function Home() {
           <p className="text-lg md:text-xl leading-relaxed text-justify sm:text-center text-gray-700">
             No false promises—just clarity, industry-driven mentorship, and real advisory access.
           </p>
-          <Link href="/counselling">
-            <button className="cursor-pointer bg-gradient-to-r from-[#000000] via-[#DD0000] to-[#FFCE00] hover:brightness-105 text-white font-semibold py-3 px-4 rounded-xl shadow-md border border-gray-300 transition-all duration-300 ease-in-out">
-              Reserve Your Counselling Slot Today
-            </button>
+          <Link 
+            href="/counselling"
+            className="cursor-pointer bg-gradient-to-r from-[#000000] via-[#DD0000] to-[#FFCE00] hover:brightness-105 text-white font-semibold py-3 px-4 rounded-xl shadow-md border border-gray-300 transition-all duration-300 ease-in-out"
+          >
+            Reserve Your Counselling Slot Today
           </Link>
 
         </div>

@@ -1,4 +1,8 @@
-import { Link } from "react-router-dom";
+import Link from 'next/link';
+import Image from 'next/image';
+import LinkedInIcon from '../icons/LinkedInIcon';
+// import InstagramIcon from './icons/InstagramIcon';
+// import YouTubeIcon from './icons/YouTubeIcon';
 
 const Footer = () => {
   return (
@@ -7,10 +11,13 @@ const Footer = () => {
 
         {/* Brand & Summary */}
         <div>
-          <Link to="/" className="inline-flex items-center gap-3 mb-4">
-            <img
+          {/* Changed to next/link and next/image */}
+          <Link href="/" className="inline-flex items-center gap-3 mb-4">
+            <Image
               src="/logo.png"
               alt="Systech Consultancy Logo"
+              width={120}
+              height={50}
               className="h-10 w-auto object-contain"
             />
             <div>
@@ -28,9 +35,10 @@ const Footer = () => {
         <div>
           <h3 className="text-lg font-semibold mb-4 text-gray-200">Our Services</h3>
           <ul className="space-y-2 text-sm text-gray-400">
-            <li><Link to="/" className="hover:text-white transition">Study in Germany</Link></li>
-            <li><Link to="/counselling" className="hover:text-white transition">Individual Counselling</Link></li>
-            <li><Link to="/counselling" className="hover:text-white transition">Group Counselling</Link></li>
+            {/* Changed to next/link with href */}
+            <li><Link href="/services" className="hover:text-white transition">All Services</Link></li>
+            <li><Link href="/counselling" className="hover:text-white transition">Individual Counselling</Link></li>
+            <li><Link href="/counselling" className="hover:text-white transition">Group Counselling</Link></li>
           </ul>
         </div>
 
@@ -39,49 +47,65 @@ const Footer = () => {
           <h3 className="text-lg font-semibold mb-4 text-gray-200">Contact</h3>
           <ul className="text-sm text-gray-400 space-y-2">
             <li>
-              <span className="text-white">Email:</span>{' '}
+              <span className="font-semibold text-gray-200">Email:</span>{' '}
               <a href="mailto:contact@systechconsultancy.in" className="hover:text-white transition">
                 contact@systechconsultancy.in
               </a>
             </li>
             <li>
-              <span className="text-white">Phone 1:</span>{' '}
+              <span className="font-semibold text-gray-200">Phone:</span>{' '}
               <a href="tel:+919390330592" className="hover:text-white transition">
                 +91 9390330592
               </a>
             </li>
-            <li>
-              <span className="text-white">Phone 2:</span>{' '}
-              <a href="tel:+918096343600" className="hover:text-white transition">
-                +91 8096343600
-              </a>
-            </li>
-            <li><span className="text-white">Support Hours:</span> Mon–Sun, 10AM – 6PM IST</li>
+            <li><span className="font-semibold text-gray-200">Support:</span> Mon–Sun, 10AM – 6PM IST</li>
           </ul>
         </div>
 
         {/* Social */}
         <div>
           <h3 className="text-lg font-semibold mb-4 text-gray-200">Connect With Us</h3>
-          <div className="flex gap-4 text-gray-400">
-            {/* Replace hrefs with actual links when available */}
-            <a href="#" className="hover:text-white transition" aria-label="LinkedIn">
-              <i className="fab fa-linkedin text-xl"></i>
+          <div className="flex gap-5 text-gray-400">
+            {/* Using SVG Icons and correct external link attributes */}
+            <a
+              href="https://www.linkedin.com/in/malikireddy/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition"
+              aria-label="LinkedIn"
+            >
+              <LinkedInIcon className="w-6 h-6" />
             </a>
-            <a href="#" className="hover:text-white transition" aria-label="Instagram">
-              <i className="fab fa-instagram text-xl"></i>
+            {/* <a
+              href="#" // Add your Instagram URL
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition"
+              aria-label="Instagram"
+            >
+              <InstagramIcon className="w-6 h-6" />
             </a>
-            <a href="#" className="hover:text-white transition" aria-label="YouTube">
-              <i className="fab fa-youtube text-xl"></i>
-            </a>
+            <a
+              href="#" // Add your YouTube URL
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition"
+              aria-label="YouTube"
+            >
+              <YouTubeIcon className="w-6 h-6" />
+            </a> */}
           </div>
           <p className="text-sm text-gray-400 mt-3">Launching soon on major platforms.</p>
         </div>
       </div>
 
-      {/* Footer Bottom */}
-      <div className="mt-12 border-t border-gray-800 pt-6 text-center text-xs text-gray-500">
-        © {new Date().getFullYear()} Systech Consultancy. All rights reserved.
+      {/* Footer Bottom with added legal links */}
+      <div className="mt-12 border-t border-gray-800 pt-6 text-center text-xs text-gray-500 flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-4">
+        <span>© {new Date().getFullYear()} Systech Consultancy. All rights reserved.</span>
+        <div className="flex gap-4">
+            <Link href="/privacy-policy" className="hover:text-white transition">Privacy Policy</Link>
+            <Link href="/terms-of-service" className="hover:text-white transition">Terms of Service</Link>
+        </div>
       </div>
     </footer>
   );
