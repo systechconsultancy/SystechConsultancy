@@ -1,25 +1,38 @@
 import Link from "next/link";
 import Image from "next/image";
-import Head from "next/head";
+
+// app/page.jsx
+
+export const metadata = {
+  title: "Study in Germany | Systech Consultancy",
+  description:
+    "Led by a former German R&D Director, we offer expert-led strategy, admission, and visa support for students aspiring to study in Germany.",
+  openGraph: {
+    title: "Systech Consultancy — Study in Germany",
+    description:
+      "Study in Germany with mentorship from a 20+ year German industry veteran. Book your strategy session today.",
+    url: "https://systechconsultancy.in/",
+    type: "website",
+    images: [
+      {
+        url: "https://systechconsultancy.in/og-banner.png",
+        width: 1200,
+        height: 630,
+        alt: "Systech Consultancy Banner",
+      },
+    ],
+  },
+  alternates: {
+    canonical: "https://systechconsultancy.in/",
+  },
+};
+
 
 export default function Home() {
   return (
     <>
 
-      <Head>
-        <title>Study in Germany with Industry-led Mentorship | Systech Consultancy</title>
-        <meta name="description" content="Led by a former German R&D Director, we offer expert-led strategy, admission, and visa support for students aspiring to study in Germany." />
 
-        {/* Open Graph Tags */}
-        <meta property="og:title" content="Systech Consultancy — Study in Germany" />
-        <meta property="og:description" content="Study in Germany with mentorship from a 20+ year German industry veteran. Book your strategy session today." />
-        <meta property="og:image" content="https://systechconsultancy.in/og-banner.png" />
-        <meta property="og:url" content="https://systechconsultancy.in/" />
-        <meta property="og:type" content="website" />
-
-        {/* Canonical URL */}
-        <Link rel="canonical" href="https://systechconsultancy.in/" />
-      </Head>
 
       <section className="bg-gradient-to-r from-blue-50 to-white py-4 px-6 md:px-12 lg:px-20">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
@@ -43,7 +56,7 @@ export default function Home() {
 
           {/* Hero Image */}
           <div className="flex flex-col items-center lg:items-start relative">
-            <div className="w-[280px] sm:w-[360px] md:w-[440px] lg:w-[520px] xl:w-[600px] aspect-[16/10]">
+            <div className="relative w-[280px] sm:w-[360px] md:w-[440px] lg:w-[520px] xl:w-[600px] aspect-[16/10]">
               <Image
                 src="/hero_section_img.png"
                 alt="Mentor and student brainstorming"
