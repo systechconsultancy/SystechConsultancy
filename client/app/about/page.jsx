@@ -158,7 +158,7 @@ export default function About() {
             ].map(({ title, desc }) => (
               <div
                 key={title}
-                className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 text-justify"
+                className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 text-justify"
               >
                 <h4 className="text-lg font-semibold text-blue-800 mb-2">{title}</h4>
                 <p>{desc}</p>

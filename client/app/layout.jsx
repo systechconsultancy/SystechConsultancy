@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  
-  metadataBase: new URL("https://systechconsultancy.in"),
+
+  metadataBase: new URL("https://www.systechconsultancy.in"),
 
   title: {
     template: '%s | Systech Consultancy',
@@ -35,11 +35,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <Head>
-        
+
         <meta
           property="og:image"
-          content="https://systechconsultancy.in/og-banner.png"
+          content="https://www.systechconsultancy.in/og-banner.png"
         />
+        <meta property="og:url" content="https://www.systechconsultancy.in/" />
+        <meta property="og:title" content="Systech Consultancy | Expert Guidance for Study in Germany" />
+        <meta property="og:description" content="Get expert mentorship for your Master's in Germany. We provide end-to-end guidance on university selection, applications, and visa processes, led by a 20-year German industry veteran." />
         <meta
           property="og:image:alt"
           content="Systech Consultancy Banner"
