@@ -1,4 +1,16 @@
-import React from 'react'
+export const metadata = {
+  title: "Our Services",
+  description: "Explore our comprehensive services for studying in Germany, including individual counselling, visa guidance, application assistance, and profile evaluation.",
+  openGraph: {
+    title: "Services for Studying in Germany | Systech Consultancy",
+    description: "From university shortlisting to visa guidance, discover all the ways we can support your journey.",
+    images: [{
+      url: '/og-banner.png', 
+      width: 1200,
+      height: 630,
+    }],
+  }
+};
 
 const Services = () => {
   const services = [

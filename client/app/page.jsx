@@ -33,9 +33,6 @@ import MailIcon from "./icons/MailIcon";
 export default function Home() {
   return (
     <>
-
-
-
       <section className="bg-gradient-to-r from-blue-50 to-white py-4 px-6 md:px-12 lg:px-20">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
