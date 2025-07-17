@@ -13,11 +13,11 @@ import MailIcon from "./icons/MailIcon";
       title: "Systech Consultancy — Study in Germany",
       description:
         "Study in Germany with mentorship from a 20+ year German industry veteran. Book your strategy session today.",
-      url: "https://systechconsultancy.in/",
+      url: "https://www.systechconsultancy.in/",
       type: "website",
       images: [
         {
-          url: "https://systechconsultancy.in/og-banner.png",
+          url: "https://www.systechconsultancy.in/og-banner.png",
           width: 1200,
           height: 630,
           alt: "Systech Consultancy Banner",
@@ -25,7 +25,7 @@ import MailIcon from "./icons/MailIcon";
       ],
     },
     alternates: {
-      canonical: "https://systechconsultancy.in/",
+      canonical: "https://www.systechconsultancy.in/",
     },
   };
 
