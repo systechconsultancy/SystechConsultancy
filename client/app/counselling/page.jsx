@@ -1,4 +1,4 @@
-import Counselling from "./counselling"
+import Counselling from "./Counselling"
 
 export const metadata = {
     title: "Book a Counselling Session",
