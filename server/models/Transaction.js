@@ -19,15 +19,17 @@ const transactionSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Student",
     default: null,
+    index : true,
   },
   groupId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Group",
     default: null,
+    index : true,
   },
   type: {
     type: String,
-    enum: ["individual", "group"],
+    enum: ["individual", "group", "other"],
     required: true,
   }
 }, { timestamps: true });

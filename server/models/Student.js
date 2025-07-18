@@ -14,6 +14,7 @@ const studentSchema = new mongoose.Schema({
     required: true,
     unique: true,
     trim: true,
+    match: /^[6-9]\d{9}$/,
   },
   dob: { type: Date }, // optional DOB field
   city: { type: String }, // optional city
@@ -28,13 +29,23 @@ const studentSchema = new mongoose.Schema({
   collegeName: { type: String },
   branch: { type: String },
   cgpa: { type: String },
-  graduationYear: { type: Number, min: 2000, max: new Date().getFullYear() + 5 },
+  graduationYear: {
+    type: Number,
+    required: true,
+    validate: {
+      validator: function (val) {
+        const currentYear = new Date().getFullYear();
+        return val >= 2000 && val <= currentYear + 5;
+      },
+      message: props => `${props.value} is not a valid graduation year`
+    }
+  },
   backlogs: { type: String },
 
   // Professional-specific fields
   jobTitle: { type: String },
   company: { type: String },
-  experienceYears: { type: String },
+  experienceYears: { type: Number, min: 0 },
   careerGoal: { type: String },
 
   // Common fields

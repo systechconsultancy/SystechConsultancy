@@ -20,4 +20,11 @@ const dailyBookingSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
+dailyBookingSchema.pre('save', function(next) {
+  if (this.isModified('date') || this.isNew) {
+    this.date.setHours(0, 0, 0, 0);
+  }
+  next();
+});
+
 export default mongoose.model("DailyBookingSummary", dailyBookingSchema);
