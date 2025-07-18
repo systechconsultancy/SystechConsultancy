@@ -1,7 +1,30 @@
+"use client";
+import { useState, useRef, useEffect } from 'react';
+import { initiateIndividualBooking } from '../../../utils/api';
+import { calculatePayableAmount } from '../../../utils/pricing';
+import PayableAmountDisplay from "./PayableAmountDisplay"
 import StudentSection from "./StudentSection";
 import ProfessionalSection from "./ProfessionalSection";
 
-const CounsellingForm = ({ formData, setFormData, emailRef, errors, loading, onSubmit, amount }) => {
+const CounsellingForm = ({
+    setStudentId,
+    setStep,
+    setErrors,
+    errors,
+    loading,
+    setLoading,
+    setPayableAmount
+}) => {
+
+    const payableAmount = calculatePayableAmount('individual');
+    const emailRef = useRef(null);
+    const [formData, setFormData] = useState({
+        name: "", email: "", phone: "", dob: "", city: "", userType: "",
+        collegeName: "", branch: "", cgpa: "", graduationYear: "", backlogs: "",
+        jobTitle: "", company: "", experienceYears: "", careerGoal: "",
+        fieldOfInterest: "", expectationsFromCall: "", mode: "", dateOfCall: ""
+    });
+
     const today = new Date();
     const maxDate = new Date();
     maxDate.setDate(today.getDate() + 30);
@@ -12,9 +35,54 @@ const CounsellingForm = ({ formData, setFormData, emailRef, errors, loading, onS
         setFormData({ ...formData, [name]: value });
     };
 
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        setErrors({});
+        setLoading(true);
+
+        if (!formData.userType) {
+            setErrors({ general: "Please select whether you are a student or a working professional." });
+            setLoading(false);
+            return;
+        }
+
+        try {
+            const res = await initiateIndividualBooking(formData);
+
+            if (res.success) {
+                setStudentId(res.data.studentId);
+                setStep('PAYMENT');
+            } else {
+                if (res.error === "DUPLICATE_EMAIL") {
+                    setErrors({ email: res.message });
+                    emailRef.current?.focus();
+                } else if (res.error === "DUPLICATE_PHONE") {
+                    setErrors({ phone: res.message });
+                } else if (res.error === "SLOTS_FULL") {
+                    setErrors({ dateOfCall: res.message });
+                } else {
+                    setErrors({ general: res.message });
+                }
+            }
+        } catch (err) {
+            console.log(err);
+            setErrors({ general: "Unexpected error occurred." });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (setPayableAmount) {
+            setPayableAmount(payableAmount);
+        }
+    }, [payableAmount, setPayableAmount]);
+
     return (
-        <div className="max-w-3xl mx-auto sm:px-6 lg:px-0">
-            <form onSubmit={onSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+        <>
+            <PayableAmountDisplay amount={payableAmount} />
+            <form onSubmit={handleFormSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
 
                 {/* Full Name */}
                 <div>
@@ -184,12 +252,12 @@ const CounsellingForm = ({ formData, setFormData, emailRef, errors, loading, onS
                         className={`${loading ? "bg-gray-400 cursor-not-allowed" : "bg-pink-600 hover:bg-pink-700"
                             } text-white px-6 py-3 rounded-lg text-lg font-medium transition duration-200 shadow-md`}
                     >
-                        {loading ? "Proceeding..." : `Pay ₹${amount} & Book Session`}
+                        {loading ? "Proceeding..." : `Pay ₹${payableAmount} & Book Session`}
                     </button>
                     <p className="text-sm text-gray-500 mt-2">Payment will be processed via secure gateway.</p>
                 </div>
             </form>
-        </div>
+        </>
     );
 };
 

@@ -1,11 +1,14 @@
+import Link from "next/link";
+import { services } from "./data.js";
+
 export const metadata = {
-  title: "Our Services",
+  title: "Services",
   description: "Explore our comprehensive services for studying in Germany, including individual counselling, visa guidance, application assistance, and profile evaluation.",
   openGraph: {
     title: "Services for Studying in Germany | Systech Consultancy",
     description: "From university shortlisting to visa guidance, discover all the ways we can support your journey.",
     images: [{
-      url: '/og-banner.png', 
+      url: '/og-banner.png',
       width: 1200,
       height: 630,
     }],
@@ -13,82 +16,16 @@ export const metadata = {
 };
 
 const Services = () => {
-  const services = [
-    {
-      category: "Core Services",
-      items: [
-        {
-          title: "Individual Counselling",
-          description: "One-on-one personalized mentoring with our expert to help you plan your higher education journey to Germany.",
-        },
-        {
-          title: "Group Counselling",
-          description: "Collaborative sessions for students with similar aspirations—cost-effective, yet insightful.",
-        },
-        {
-          title: "Application Submission Assistance",
-          description: "We help you prepare and submit your university applications with complete accuracy and timeliness.",
-        },
-        {
-          title: "University Shortlisting",
-          description: "Get a personalized list of German universities based on your profile, goals, and financial plan.",
-        },
-        {
-          title: "Profile Evaluation",
-          description: "We assess your academic and professional credentials to guide you on realistic and ambitious options.",
-        },
-      ],
-    },
-    {
-      category: "Pre-Departure Preparation",
-      items: [
-        {
-          title: "Visa Guidance",
-          description: "Step-by-step assistance for your German student visa—from documentation to interview readiness.",
-        },
-        {
-          title: "Passport Guidance",
-          description: "Support for applying or renewing your passport in alignment with your application timeline.",
-        },
-        {
-          title: "Blocked Account & Insurance Guidance",
-          description: "Get help setting up Fintiba/Expatrio accounts and health insurance compliant with German laws.",
-        },
-        {
-          title: "Pre-Departure Orientation",
-          description: "Workshops to prepare you culturally, academically, and logistically before you leave for Germany.",
-        },
-      ],
-    },
-    {
-      category: "Language & Skills Development",
-      items: [
-        {
-          title: "Language Preparation",
-          description: "Training paths for German and IELTS—covering A1 to B2 and strategies to clear with confidence.",
-        },
-        {
-          title: "Skill Building",
-          description: "Enhance your academic, digital, and professional skillsets to excel in the German education system.",
-        },
-      ],
-    },
-    {
-      category: "Specialized Support",
-      items: [
-        {
-          title: "R&D / Research Support",
-          description: "Mentorship for thesis-based programs, research proposal writing, and professor outreach in Germany.",
-        },
-      ],
-    },
-  ];
   return (
-    <main className="px-6 md:px-10 lg:px-20 py-16 bg-white text-gray-800">
+    <main className="px-6 md:px-10 lg:px-20 py-8 bg-white text-gray-800">
       <section className="max-w-7xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-bold text-center mb-10">
+        <h1 className="text-4xl md:text-5xl font-bold text-center mb-8">
           Our Services
         </h1>
+
+        <p className="text-lg text-center text-gray-600 max-w-3xl mx-auto mb-16">
+          Our end-to-end support is designed to give you clarity and confidence at every stage of your journey to study in <strong className="text-blue-500">Germany and the EU</strong>.
+        </p>
 
         {services.map((section) => (
           <div key={section.category} className="mb-14">
@@ -110,6 +47,19 @@ const Services = () => {
             </div>
           </div>
         ))}
+      </section>
+
+      <section className="mt-10 text-center">
+        <h2 className="text-3xl font-bold text-blue-900 mb-4">Ready to Start Your Journey?</h2>
+        <p className="max-w-2xl mx-auto text-gray-600 mb-8">
+          Let's discuss your profile and build a personalized roadmap for your success in Germany.
+        </p>
+        <Link
+          href="/counselling"
+          className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-xl shadow-md transition-all duration-300 hover:scale-105"
+        >
+          Book a Counselling Session
+        </Link>
       </section>
     </main>
   )

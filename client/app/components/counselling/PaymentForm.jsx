@@ -1,16 +1,20 @@
+"use client";
+
 import { useState, useEffect, useRef } from 'react';
 import { confirmIndividualBooking, confirmGroupBooking } from "../../../utils/api";
 import { ClipboardDocumentIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
 import imageCompression from 'browser-image-compression';
 import axios from 'axios';
+import Image from 'next/image';
 
-const PaymentForm = ({ id, isGroup, amount = 250, setSuccessMsg, setShowPaymentUI }) => {
+const PaymentForm = ({ id, isGroup, amount, setConfirmationMessage, setStep }) => {
   const [txnId, setTxnId] = useState("");
   const [screenshot, setScreenshot] = useState(null);
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const fileInputRef = useRef(null);
+  const [qrUrl, setQrUrl] = useState(null);
 
   const handleConfirmPayment = async () => {
     setLoading(true);
@@ -79,9 +83,8 @@ const PaymentForm = ({ id, isGroup, amount = 250, setSuccessMsg, setShowPaymentU
       const res = await confirmFn(payload);
 
       if (res.success) {
-        setShowPaymentUI(false);
-        setSuccessMsg(res.message);
-        setLoading(false);
+        setConfirmationMessage(res.message);
+        setStep('SUCCESS');
         setTxnId("");
         setScreenshot(null);
         setCopied(false);
@@ -105,7 +108,27 @@ const PaymentForm = ({ id, isGroup, amount = 250, setSuccessMsg, setShowPaymentU
     setCopied(true);
   };
 
-  const [qrUrl, setQrUrl] = useState(null);
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const validTypes = ["image/png", "image/jpeg"];
+    const fileExtension = file.name.split(".").pop()?.toLowerCase();
+    const mimeTypeMatch = validTypes.includes(file.type);
+
+    if (!mimeTypeMatch || !["png", "jpg", "jpeg"].includes(fileExtension)) {
+      setErrors({ general: "Only valid PNG or JPG images are allowed." });
+      e.target.value = null;
+      return;
+    }
+
+    if (file.size > 750 * 1024) {
+      setErrors({ general: "File size exceeds 750KB. Please upload a smaller file." });
+      return (e.target.value = null);
+    }
+
+    setScreenshot(file);
+  }
 
   useEffect(() => {
     const fetchQr = async () => {
@@ -130,8 +153,16 @@ const PaymentForm = ({ id, isGroup, amount = 250, setSuccessMsg, setShowPaymentU
 
       {/* QR & UPI ID */}
       <div className="mb-4">
-        <img src={qrUrl} alt={`Pay ₹${amount} QR`} className="mx-auto w-48 h-48 rounded-md border" />
-        <div className="mt-3 flex items-center justify-center gap-2 text-sm text-gray-700">
+        {qrUrl && (
+          <Image
+            src={qrUrl}
+            alt={`Pay ₹${amount} QR`}
+            width={192}
+            height={192}
+            className="mx-auto rounded-md border"
+          />
+        )}
+        {/* <div className="mt-3 flex items-center justify-center gap-2 text-sm text-gray-700">
           <span className="font-medium">UPI ID:</span>
           <span className="font-mono text-pink-600 cursor-pointer" onClick={handleCopy}>
             systech@upi
@@ -140,7 +171,7 @@ const PaymentForm = ({ id, isGroup, amount = 250, setSuccessMsg, setShowPaymentU
             className="w-5 h-5 text-gray-500 hover:text-pink-600 cursor-pointer"
             onClick={handleCopy}
           />
-        </div>
+        </div> */}
         {copied && (
           <div className="mt-1 text-green-600 text-xs flex justify-center items-center gap-1">
             <CheckCircleIcon className="w-4 h-4" />
@@ -178,27 +209,7 @@ const PaymentForm = ({ id, isGroup, amount = 250, setSuccessMsg, setShowPaymentU
           id="screenshot"
           accept="image/png, image/jpeg"
           ref={fileInputRef}
-          onChange={(e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const validTypes = ["image/png", "image/jpeg"];
-            const fileExtension = file.name.split(".").pop()?.toLowerCase();
-            const mimeTypeMatch = validTypes.includes(file.type);
-
-            if (!mimeTypeMatch || !["png", "jpg", "jpeg"].includes(fileExtension)) {
-              alert("Only valid PNG or JPG images are allowed.");
-              e.target.value = null;
-              return;
-            }
-
-            if (file.size > 750 * 1024) {
-              alert("File size exceeds 750KB. Please upload a smaller file.");
-              return (e.target.value = null);
-            }
-
-            setScreenshot(file);
-          }}
+          onChange={handleFileChange}
           className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100 cursor-pointer"
           required
         />
