@@ -29,6 +29,7 @@ const loginAdmin = async (req, res) => {
         secure: process.env.NODE_ENV === "production",
         sameSite: "Lax",
         maxAge: 45 * 60 * 1000, // 45 minutes
+        domain: process.env.NODE_ENV === "production" ? ".systechconsultancy.in" : undefined,
       })
       .json({
         ok: true,
