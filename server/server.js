@@ -5,6 +5,7 @@ import connectDB from "./config/db.js";
 import bookingRoutes from "./routes/bookingRoutes.js";
 import uploadRoutes from './routes/uploadRoutes.js';
 import qrRoutes from "./routes/paymentQrRoutes.js";
+import adminAuthRoute from "./routes/adminAuthRoute.js";
 
 dotenv.config();
 const app = express();
@@ -24,6 +25,7 @@ connectDB();
 app.use("/api/bookings", bookingRoutes);
 app.use('/api', uploadRoutes);
 app.use("/api/payment-qr", qrRoutes);
+app.use("/api/admin", adminAuthRoute);
 
 
 app.get('/', (req, res) => {
