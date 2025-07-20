@@ -1,5 +1,5 @@
 "use client";
-import LogOutSVG from "@/icons/LogoutSVG";
+import LogOutSVG from "@/icons/LogOutSVG";
 import { useRouter } from "next/navigation";
 
 function LogoutButton() {
