@@ -52,6 +52,7 @@ const logoutAdmin = async (req, res) => {
     secure: process.env.NODE_ENV === "production",
     sameSite: "Lax",
     path: "/",
+    domain: process.env.NODE_ENV === "production" ? ".systechconsultancy.in" : undefined,
   });
 
   res.status(200).json({ message: "Logged out successfully" });
