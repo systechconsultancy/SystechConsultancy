@@ -5,8 +5,8 @@ import { CalendarDaysIcon, ClockIcon, CurrencyRupeeIcon, UserIcon, UsersIcon } f
 // This Server Component fetches data directly
 async function getPublicWorkshops() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/workshops`, { 
-      next: { revalidate: 600 } // Re-fetch data every 10 minutes
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/workshops`, {
+      cache: 'no-store'
     });
     if (!res.ok) return [];
     return res.json();
@@ -31,7 +31,7 @@ export default async function WorkshopsPage() {
         <div className="max-w-7xl mx-auto px-4">
           <h1 className="text-3xl md:text-4xl font-bold text-blue-900">Upcoming Workshops</h1>
           <p className="text-md text-gray-600 mt-3 max-w-2xl mx-auto">
-            Expert-led sessions to give you a competitive edge in your journey to Germany.
+            Gain practical, in-demand skills with our expert-led workshops, designed to accelerate your professional growth and technical mastery.
           </p>
         </div>
       </section>
@@ -74,7 +74,7 @@ function PublicWorkshopCard({ workshop }) {
         </div>
         <div className="p-5 flex flex-col flex-grow">
           <h3 className="text-lg font-bold text-gray-800 flex-grow">{title}</h3>
-          
+
           {/* Details */}
           <div className="space-y-2 mt-3 text-sm text-gray-600">
             <div className="flex items-center">
@@ -86,7 +86,7 @@ function PublicWorkshopCard({ workshop }) {
               <span>{format(new Date(date), 'dd MMM yyyy')}</span>
             </div>
           </div>
-          
+
           {/* Footer of the card */}
           <div className="flex justify-between items-center mt-4 pt-4 border-t border-gray-100">
             <div className="flex items-center gap-1 text-lg font-bold text-green-600">
