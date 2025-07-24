@@ -4,7 +4,7 @@ import {
   confirmIndividualBooking,
   initiateGroupBooking,
   confirmGroupBooking,
-} from "../controllers/bookingController.js";
+} from "../../controllers/public/bookingController.js";
 
 const router = express.Router();
 

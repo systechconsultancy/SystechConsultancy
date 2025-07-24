@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import AdminUser from "../models/AdminUser.js";
+import AdminUser from "../../models/AdminUser.js";
 
 const generateToken = (id, role,name) => {
   return jwt.sign({ id, role,name }, process.env.JWT_SECRET, {

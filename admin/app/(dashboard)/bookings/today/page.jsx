@@ -10,6 +10,32 @@ export default function TodayBookingsPage() {
         <div className="mt-4 p-4 border border-dashed border-gray-300 rounded-lg text-gray-500 text-sm">
           Booking data will appear here once integrated with backend.
         </div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
+        <div>abc</div>
       </div>
     </div>
   );

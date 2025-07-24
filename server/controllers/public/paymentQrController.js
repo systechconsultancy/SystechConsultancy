@@ -1,4 +1,4 @@
-import QrPaymentUrl from "../models/QrPaymentUrl.js";
+import QrPaymentUrl from "../../models/QrPaymentUrl.js";
 
 export const getQrByAmount = async (req, res) => {
   try {

@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import Student from "../models/Student.js";
-import Group from "../models/Group.js";
-import DailyBookingSummary from "../models/DailyBookingSummary.js";
-import Transaction from "../models/Transaction.js";
-import { sendInvoice } from "../utils/sendInvoiceUtility.js";
-import { getSlotCountForGroupSize } from "../utils/slotUtils.js";
+import Student from "../../models/Student.js";
+import Group from "../../models/Group.js";
+import DailyBookingSummary from "../../models/DailyBookingSummary.js";
+import Transaction from "../../models/Transaction.js";
+import { sendInvoice } from "../../utils/sendInvoiceUtility.js";
+import { getSlotCountForGroupSize } from "../../utils/slotUtils.js";
 import { v4 as uuidv4 } from "uuid";
 
 

@@ -1,11 +1,15 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import cookieParser from 'cookie-parser';
 import connectDB from "./config/db.js";
-import bookingRoutes from "./routes/bookingRoutes.js";
-import uploadRoutes from './routes/uploadRoutes.js';
-import qrRoutes from "./routes/paymentQrRoutes.js";
-import adminAuthRoute from "./routes/adminAuthRoute.js";
+import bookingRoutes from "./routes/public/bookingRoutes.js";
+import uploadRoutes from './routes/public/uploadRoutes.js';
+import qrRoutes from "./routes/public/paymentQrRoutes.js";
+import adminAuthRoute from "./routes/admin/adminAuthRoutes.js";
+import adminWorkshopRoutes from "./routes/admin/adminWorkshopRoutes.js";
+import publicWorkshopRoutes from "./routes/public/publicWorkshopRoutes.js";
+
 
 dotenv.config();
 const app = express();
@@ -19,14 +23,21 @@ app.use(cors({
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 }));
+
 app.use(express.json());
+app.use(cookieParser());
 
 connectDB();
 
+//Public routes
 app.use("/api/bookings", bookingRoutes);
 app.use('/api', uploadRoutes);
 app.use("/api/payment-qr", qrRoutes);
+app.use("/api/workshops", publicWorkshopRoutes);
+
+//Admin Routes
 app.use("/api/admin", adminAuthRoute);
+app.use("/api/admin/workshops", adminWorkshopRoutes);
 
 
 app.get('/', (req, res) => {
