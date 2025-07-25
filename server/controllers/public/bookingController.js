@@ -63,7 +63,8 @@ const initiateIndividualBooking = async (req, res) => {
     }
 
     // ✅ Check if the selected date is full
-    const dateDoc = await DailyBookingSummary.findOne({ date: dateOfCall });
+    const dateToFind = new Date(dateOfCall).setHours(0, 0, 0, 0);
+    const dateDoc = await DailyBookingSummary.findOne({ date: dateToFind });
     if (dateDoc && dateDoc.count >= 5) {
       return res.status(400).json({
         success: false,
@@ -105,7 +106,7 @@ const initiateIndividualBooking = async (req, res) => {
       fieldOfInterest,
       expectationsFromCall,
       mode,
-      dateOfCall,
+      dateOfCall: dateToFind,
       isPaid: false,
     };
 
@@ -169,7 +170,8 @@ const confirmIndividualBooking = async (req, res) => {
       }
 
       // Step 3: Check and update booking count
-      let dateDoc = await DailyBookingSummary.findOne({ date: student.dateOfCall }).session(session);
+      const dateToFind = new Date(student.dateOfCall).setHours(0, 0, 0, 0);
+      let dateDoc = await DailyBookingSummary.findOne({ date: dateToFind }).session(session);
 
       if (dateDoc && dateDoc.count >= 5) {
         throw new Error("SLOTS_FULL");
@@ -177,7 +179,7 @@ const confirmIndividualBooking = async (req, res) => {
 
       if (!dateDoc) {
         dateDoc = new DailyBookingSummary({
-          date: student.dateOfCall,
+          date: dateToFind,
           students: [studentId],
           count: 1
         });
@@ -307,7 +309,8 @@ const initiateGroupBooking = async (req, res) => {
   try {
     await session.withTransaction(async () => {
       // Step 1: Re-check slot availability inside transaction
-      const summary = await DailyBookingSummary.findOne({ date }).session(session);
+      const dateToFind = new Date(date).setHours(0, 0, 0, 0);
+      const summary = await DailyBookingSummary.findOne({ date: dateToFind }).session(session);
       const count = summary?.count || 0;
       const availableSlots = 5 - count;
 
@@ -318,7 +321,7 @@ const initiateGroupBooking = async (req, res) => {
       // Step 2: Create group first (empty student array for now)
       newGroup = new Group({
         students: [],
-        dateOfCall: date,
+        dateOfCall: dateToFind,
         groupSize: students.length,
         mode,
         groupToken,
@@ -345,7 +348,7 @@ const initiateGroupBooking = async (req, res) => {
           collegeName, branch, cgpa, graduationYear, backlogs,
           jobTitle, company, experienceYears, careerGoal,
           fieldOfInterest, expectationsFromCall,
-          mode, dateOfCall: date,
+          mode, dateOfCall: dateToFind,
           groupToken, counsellingType: "group", isPaid: false, groupId: newGroup._id,
         };
 
@@ -441,12 +444,13 @@ const confirmGroupBooking = async (req, res) => {
       await group.save({ session });
 
       // Update daily booking summary
-      let dateDoc = await DailyBookingSummary.findOne({ date: group.dateOfCall }).session(session);
+      const dateToFind = new Date(group.dateOfCall).setHours(0, 0, 0, 0);
+      let dateDoc = await DailyBookingSummary.findOne({ date: dateToFind }).session(session);
       const incrementCount = getSlotCountForGroupSize(group.students.length);
 
       if (!dateDoc) {
         dateDoc = new DailyBookingSummary({
-          date: group.dateOfCall,
+          date: dateToFind,
           students: [],
           groups: [group._id],
           count: incrementCount,

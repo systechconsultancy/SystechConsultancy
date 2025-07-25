@@ -6,7 +6,7 @@ import { CalendarDaysIcon, ClockIcon, CurrencyRupeeIcon, UserIcon, UsersIcon } f
 async function getPublicWorkshops() {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/workshops`, {
-      cache: 'no-store'
+      next: { revalidate: 600 }
     });
     if (!res.ok) return [];
     return res.json();
@@ -27,7 +27,7 @@ export default async function WorkshopsPage() {
   return (
     <div className="bg-slate-50 min-h-screen">
       {/* Hero Section */}
-      <section className="bg-white py-12 text-center border-b">
+      <section className="bg-white pt-6 text-center border-b">
         <div className="max-w-7xl mx-auto px-4">
           <h1 className="text-3xl md:text-4xl font-bold text-blue-900">Upcoming Workshops</h1>
           <p className="text-md text-gray-600 mt-3 max-w-2xl mx-auto">
@@ -37,7 +37,7 @@ export default async function WorkshopsPage() {
       </section>
 
       {/* Workshops Grid */}
-      <section className="py-12 px-4">
+      <section className="py-6 px-4">
         <div className="max-w-7xl mx-auto">
           {workshops.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

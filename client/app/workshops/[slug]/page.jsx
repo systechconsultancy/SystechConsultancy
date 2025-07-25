@@ -45,6 +45,7 @@ export default async function WorkshopDetailPage(props) {
                 {/* Header */}
                 <div className="mb-6">
                     <div className="mb-3">
+                        <NotFoundIcon/>
                         <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
                             WORKSHOP
                         </span>
@@ -197,11 +198,6 @@ function WorkshopNotFound() {
         <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
             <div className="max-w-md mx-auto text-center">
                 <div className="bg-white rounded-lg shadow-sm border p-8">
-                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.467-.881-6.077-2.33m0 0A7.96 7.96 0 014 9c0-1.71-.54-3.29 1.459-4.568C7.17 2.24 9.46 1 12 1s4.83 1.24 6.541 3.432A7.96 7.96 0 0120 9c0 1.71-.54-3.29-1.459-4.568" />
-                        </svg>
-                    </div>
                     <h1 className="text-2xl font-bold text-gray-900 mb-4">Workshop Not Found</h1>
                     <p className="text-gray-600 mb-8">
                         Sorry, we couldn't find the workshop you were looking for.

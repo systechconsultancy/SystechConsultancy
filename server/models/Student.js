@@ -31,7 +31,6 @@ const studentSchema = new mongoose.Schema({
   cgpa: { type: String },
   graduationYear: {
     type: Number,
-    required: true,
     validate: {
       validator: function (val) {
         const currentYear = new Date().getFullYear();
