@@ -10,6 +10,7 @@ import adminAuthRoute from "./routes/admin/adminAuthRoutes.js";
 import adminWorkshopRoutes from "./routes/admin/adminWorkshopRoutes.js";
 import publicWorkshopRoutes from "./routes/public/publicWorkshopRoutes.js";
 import adminBookingRoutes from './routes/admin/adminBookingRoutes.js';
+import adminStatsRoutes from './routes/admin/adminStatsRoutes.js';
 
 
 dotenv.config();
@@ -40,6 +41,7 @@ app.use("/api/workshops", publicWorkshopRoutes);
 app.use("/api/admin", adminAuthRoute);
 app.use("/api/admin/workshops", adminWorkshopRoutes);
 app.use('/api/admin/bookings', adminBookingRoutes);
+app.use('/api/admin/stats', adminStatsRoutes);
 
 
 app.get('/', (req, res) => {
