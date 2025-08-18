@@ -4,9 +4,10 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid';
+import LogoutButton from "./LogoutButton"
 import Image from 'next/image';
 
-const Navbar = () => {
+const Navbar = ({ isLoggedIn }) => {
     const [isOpen, setIsOpen] = useState(false);
     const pathname = usePathname();
 
@@ -15,6 +16,7 @@ const Navbar = () => {
         { label: "About", path: "/about" },
         { label: "Services", path: "/services" },
         { label: "Counselling", path: "/counselling" },
+        { label: "Contact", path: "/contact" },
     ];
 
     const isActive = (path) => pathname === path;
@@ -70,11 +72,16 @@ const Navbar = () => {
                     <ul className="hidden md:flex space-x-8 items-center">
                         {navLinks}
                         <li>
-                            <Link href="/contact" className="inline-block group">
-                                <button className="px-5 py-2 rounded-md bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold shadow-md hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
-                                    Contact Us
-                                </button>
-                            </Link>
+                            {/* 3. Conditionally render Login or Logout button */}
+                            {isLoggedIn ? (
+                                <LogoutButton />
+                            ) : (
+                                <Link href="/login">
+                                    <button className="px-5 py-2 cursor-pointer rounded-md bg-blue-600 hover:bg-blue-700 text-white font-semibold">
+                                        Login
+                                    </button>
+                                </Link>
+                            )}
                         </li>
                     </ul>
 
@@ -100,12 +107,17 @@ const Navbar = () => {
                 <div className="md:hidden bg-amber-700 px-4 pb-4 space-y-4">
                     <ul className="space-y-2">
                         {navLinks}
-                        <li>
-                            <Link href="/contact" onClick={() => setIsOpen(false)}>
-                                <button className="w-full px-4 py-2 mt-2 rounded-md bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
-                                    Contact Us
-                                </button>
-                            </Link>
+                        <li className="pt-2">
+                            {/* 3. Conditionally render for mobile as well */}
+                            {isLoggedIn ? (
+                                <LogoutButton />
+                            ) : (
+                                <Link href="/login" onClick={() => setIsOpen(false)}>
+                                    <button className="w-full px-4 py-2 rounded-md bg-blue-600 text-white font-semibold">
+                                        Login
+                                    </button>
+                                </Link>
+                            )}
                         </li>
                     </ul>
                 </div>

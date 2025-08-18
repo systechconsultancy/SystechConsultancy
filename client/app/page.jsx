@@ -4,6 +4,7 @@ import LinkedInIcon from "./icons/LinkedInIcon";
 import XingIcon from "./icons/XingIcon";
 import TelephoneIcon from "./icons/TelephoneIcon";
 import MailIcon from "./icons/MailIcon";
+import DriveDockAdPopup from "./components/DriveDockAdPopup";
 
   export const metadata = {
     title: "Study in Germany | Systech Consultancy",
@@ -257,6 +258,7 @@ export default function Home() {
 
         </div>
       </section>
+      <DriveDockAdPopup />
     </>
   );
 }

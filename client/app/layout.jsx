@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Geist, Geist_Mono } from "next/font/google";
+import { cookies } from 'next/headers';
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Head from "next/head";
@@ -31,7 +32,14 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({ children }) {
+
+
+export default async function RootLayout({ children }) {
+
+  const cookieStore = await cookies();
+  const token = cookieStore.get('refresh_token');
+  const isLoggedIn = !!token;
+  
   return (
     <html lang="en">
       <Head>
@@ -51,7 +59,7 @@ export default function RootLayout({ children }) {
         <meta property="og:image:height" content="630" />
       </Head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Navbar />
+        <Navbar isLoggedIn={isLoggedIn} />
         <main className="min-h-[80vh]">{children}</main>
         <Footer />
       </body>

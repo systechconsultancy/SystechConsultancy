@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 async function getTodaysBookings() {
   try {
     // 1. Get the authentication cookie on the server
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const token = cookieStore.get('access_token');
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/bookings/today`, { 

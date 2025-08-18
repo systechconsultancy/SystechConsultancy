@@ -8,10 +8,10 @@ const workshopSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        slug: { 
-            type: String, 
-            unique: true, 
-            index: true 
+        slug: {
+            type: String,
+            unique: true,
+            index: true
         },
         mentor: {
             type: String,
@@ -74,19 +74,34 @@ const workshopSchema = new mongoose.Schema(
             enum: ["Upcoming", "Completed", "Draft", "Published"],
             default: "Draft",
         },
+        registeredUsers: {
+            type: [
+                {
+                    name: { type: String, required: true },
+                    email: { type: String, required: true },
+                    phone: { type: String, required: true },
+                    transactionId: { type: String, required: true },
+                },
+            ],
+            default: [],
+        },
+        perks: {
+            type: [String],
+            default: [],
+        },
     },
     {
         timestamps: true,
     }
 );
 
-workshopSchema.pre('save', function(next) {
-  if (this.isModified('title') || this.isModified('date') || this.isNew) {
-    const titleSlug = slugify(this.title, { lower: true, strict: true });
-    const dateSlug = format(new Date(this.date), 'yyyy-MM-dd');
-    this.slug = `${titleSlug}-${dateSlug}`;
-  }
-  next();
+workshopSchema.pre('save', function (next) {
+    if (this.isModified('title') || this.isModified('date') || this.isNew) {
+        const titleSlug = slugify(this.title, { lower: true, strict: true });
+        const dateSlug = format(new Date(this.date), 'yyyy-MM-dd');
+        this.slug = `${titleSlug}-${dateSlug}`;
+    }
+    next();
 });
 
 export default mongoose.model("Workshop", workshopSchema);

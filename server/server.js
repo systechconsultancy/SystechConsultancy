@@ -11,6 +11,8 @@ import adminWorkshopRoutes from "./routes/admin/adminWorkshopRoutes.js";
 import publicWorkshopRoutes from "./routes/public/publicWorkshopRoutes.js";
 import adminBookingRoutes from './routes/admin/adminBookingRoutes.js';
 import adminStatsRoutes from './routes/admin/adminStatsRoutes.js';
+import authRoutes from "./routes/public/authRoutes.js"
+import profileRoutes from "./routes/public/profileRoutes.js"
 
 
 dotenv.config();
@@ -20,7 +22,8 @@ app.use(cors({
     "https://systechconsultancy.in",
     "https://www.systechconsultancy.in",
     "https://admin.systechconsultancy.in",
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "http://localhost:3001"
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
@@ -36,6 +39,8 @@ app.use("/api/bookings", bookingRoutes);
 app.use('/api', uploadRoutes);
 app.use("/api/payment-qr", qrRoutes);
 app.use("/api/workshops", publicWorkshopRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/profile', profileRoutes);
 
 //Admin Routes
 app.use("/api/admin", adminAuthRoute);

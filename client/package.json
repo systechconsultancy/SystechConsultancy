@@ -14,10 +14,12 @@
     "browser-image-compression": "^2.0.2",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.23.5",
+    "jose": "^6.0.12",
     "next": "15.3.5",
     "react": "^19.0.0",
     "react-datepicker": "^8.4.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

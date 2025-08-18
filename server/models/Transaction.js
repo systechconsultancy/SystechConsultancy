@@ -29,8 +29,7 @@ const transactionSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ["individual", "group", "other"],
-    required: true,
+    enum: ["individual", "group", "other"]
   }
 }, { timestamps: true });
 

@@ -2,6 +2,7 @@ import { format } from 'date-fns';
 import Link from 'next/link';
 import { CalendarDaysIcon, ClockIcon, CurrencyRupeeIcon, UserIcon, UsersIcon, TagIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
+import RegisterButton from './RegisterButton';
 
 // --- Data Fetching & SEO ---
 async function getWorkshopBySlug(slug) {
@@ -45,7 +46,6 @@ export default async function WorkshopDetailPage(props) {
                 {/* Header */}
                 <div className="mb-6">
                     <div className="mb-3">
-                        <NotFoundIcon/>
                         <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
                             WORKSHOP
                         </span>
@@ -172,11 +172,7 @@ export default async function WorkshopDetailPage(props) {
                                         </div>
                                     )}
 
-                                    <Link href={`/workshops/${slug}/register`}>
-                                        <span className="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 mb-3">
-                                            Register Now
-                                        </span>
-                                    </Link>
+                                    <RegisterButton slug={workshop.slug} workshopId={workshop._id} />
 
                                     <p className="text-xs text-gray-500 text-center">
                                         Secure your spot today
