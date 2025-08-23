@@ -16,6 +16,7 @@ const Navbar = ({ isLoggedIn }) => {
         { label: "About", path: "/about" },
         { label: "Services", path: "/services" },
         { label: "Counselling", path: "/counselling" },
+        { label: "Workshops", path: "/workshops" },
         { label: "Contact", path: "/contact" },
     ];
 
